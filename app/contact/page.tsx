@@ -21,8 +21,6 @@ export const metadata: Metadata = {
   },
 };
 
-export const revalidate = 10;
-
 interface PageProps {}
 
 const page = ({}: PageProps) => {

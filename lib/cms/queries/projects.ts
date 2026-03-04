@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-export const GetProjects = gql`
+export const PROJECTS_QUERY = gql`
   query Query(
     $where: ProjectWhereInput
     $limit: Int

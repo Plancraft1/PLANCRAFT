@@ -1,19 +1,12 @@
 import { Metadata } from "next";
 import { homepageData } from "../../(client)/homepageData";
-import getClient from "../../../apollo/client";
+import { getProjectsByCategory, getServices } from "../../../lib/cms";
 import ClientQuote from "../../../components/ClientQuote/ClientQuote";
 import DividerHeader from "../../../components/Divider/DividerHeader";
 import RevealAnimation from "../../../components/TextAnimation/RevealAnimation";
 import { Large } from "../../../components/Typography/Large";
 import { Mini } from "../../../components/Typography/Mini";
-import { GetProjects } from "../../../gql/GetProjects";
-import { GetServices } from "../../../gql/GetServices";
-import {
-  Query,
-  QueryProjectsArgs,
-  QueryServicesArgs,
-} from "../../../gql/types";
-import ProjectsGrid, { projectsPerPage } from "./(client)/ProjectsGrid";
+import ProjectsGrid from "./(client)/ProjectsGrid";
 import {
   ProjectDividerHeaderInner,
   ProjectFilter,
@@ -22,6 +15,15 @@ import {
   StyledProjects,
 } from "./(client)/StyledProjects";
 import { projectsData } from "./(client)/projectsData";
+import { notFound } from "next/navigation";
+
+export async function generateStaticParams() {
+  const { items } = await getServices();
+  return [
+    { category: [] },
+    ...items.map((service) => ({ category: [service._slug] })),
+  ];
+}
 
 export async function generateMetadata() {
   return {
@@ -35,36 +37,23 @@ export async function generateMetadata() {
   };
 }
 
-export const revalidate = 10;
-
 interface PageProps {
   params: Promise<{ category: string }>;
 }
 
 const page = async ({ params }: PageProps) => {
   const { category } = await params;
-  const client = getClient();
-
-  const {
-    data: { Projects },
-  } = await client.query<Query>({
-    query: GetProjects,
-    variables: {
+  const [projects, services] = await Promise.all([
+    getProjectsByCategory({
+      categorySlug: category,
       limit: 6,
-      where: {
-        project_category: { _slug_any: category || [] },
-      },
-      coverImageFormat: "webp",
-      coverImageCropPreset: "gridcover",
-    } as QueryProjectsArgs,
-  });
+    }),
+    getServices(),
+  ]);
 
-  const {
-    data: { Services },
-  } = await client.query<Query>({
-    query: GetServices,
-    variables: { limit: null, locale: "cs-CZ" } as QueryServicesArgs,
-  });
+  if (projects.total === 0) {
+    notFound();
+  }
 
   return (
     <StyledProjects>
@@ -90,7 +79,7 @@ const page = async ({ params }: PageProps) => {
                 <Mini>Vše</Mini>
               </ProjectFilter>
             </RevealAnimation>
-            {Services.items.map(({ service_name, _slug }, i) => (
+            {services.items.map(({ service_name, _slug }, i) => (
               <RevealAnimation
                 delay={i * 0.5 + 1}
                 style={{ width: "auto" }}
@@ -107,7 +96,7 @@ const page = async ({ params }: PageProps) => {
           </ProjectFilters>
         </ProjectDividerHeaderInner>
       </DividerHeader>
-      <ProjectsGrid projects={Projects} totalCount={Projects.total} />
+      <ProjectsGrid projects={projects} totalCount={projects.total} />
       <ClientQuote
         quote={projectsData.quote.quote}
         client={projectsData.quote.client}

@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import getClient from "../../../apollo/client";
+import { getProjectsByCategory } from "../../../lib/cms";
 import ClientQuote from "../../../components/ClientQuote/ClientQuote";
 import DividerHeader from "../../../components/Divider/DividerHeader";
 import NumberedList from "../../../components/NumberedList/NumberedList";
@@ -10,8 +10,6 @@ import Services from "../../../components/Services/Services";
 import RevealAnimation from "../../../components/TextAnimation/RevealAnimation";
 import { Mini } from "../../../components/Typography/Mini";
 import { Small } from "../../../components/Typography/Small";
-import { GetProjects } from "../../../gql/GetProjects";
-import { Query, QueryProjectsArgs } from "../../../gql/types";
 import {
   ServiceAdvantages,
   ServiceNumberedList,
@@ -20,6 +18,10 @@ import {
   StyledService,
 } from "./(client)/StyledService";
 import { servicesData } from "./servicesData";
+
+export function generateStaticParams() {
+  return Object.keys(servicesData).map((slug) => ({ slug }));
+}
 
 export async function generateMetadata({
   params,
@@ -35,7 +37,6 @@ export async function generateMetadata({
     },
   };
 }
-export const revalidate = 10;
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -45,18 +46,12 @@ const page = async ({ params }: PageProps) => {
   const { slug } = await params;
   const data = servicesData[slug];
 
-  const client = getClient();
-  const {
-    data: { Projects },
-  } = await client.query<Query>({
-    query: GetProjects,
-    variables: {
-      limit: 4,
-      where: {
-        project_category: { _slug_any: [slug] },
-      },
-    } as QueryProjectsArgs,
+  const { items: projectItems } = await getProjectsByCategory({
+    categorySlug: slug,
+    limit: 4,
   });
+
+  const Projects = { items: projectItems };
 
   return (
     <StyledService>

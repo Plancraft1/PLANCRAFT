@@ -2,7 +2,7 @@ import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
 
 let client: ApolloClient | null = null;
 
-function getClient() {
+export function getClient() {
   if (!client || typeof window === "undefined") {
     client = new ApolloClient({
       link: new HttpLink({
@@ -24,13 +24,5 @@ function getClient() {
 
   return client;
 }
-
-export const revalidate = {
-  context: {
-    fetchOptions: {
-      next: { revalidate: 5 },
-    },
-  },
-};
 
 export default getClient;

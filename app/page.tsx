@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import getClient from "../apollo/client";
+import { getHomepageProjects } from "../lib/cms";
 import Button from "../components/Button/Button";
 import ClientQuote from "../components/ClientQuote/ClientQuote";
 import FigureBanner from "../components/FigureBanner/FigureBanner";
@@ -9,8 +9,6 @@ import RevealAnimation from "../components/TextAnimation/RevealAnimation";
 import { Medium } from "../components/Typography/Medium";
 import { Mini } from "../components/Typography/Mini";
 import { Small } from "../components/Typography/Small";
-import { GetHomepageProjects } from "../gql/GetHomepageProjects";
-import { Query, QueryProjectsArgs } from "../gql/types";
 import {
   HpAbout,
   HpHeader,
@@ -27,24 +25,10 @@ import { homepageData } from "./(client)/homepageData";
 
 export const metadata: Metadata = {};
 
-export const revalidate = 10;
-
 interface PageProps {}
 
 const page = async ({}: PageProps) => {
-  const client = getClient();
-
-  const {
-    data: {
-      HomepageProjects: { homepageprojects: Projects },
-    },
-  } = await client.query<Query>({
-    query: GetHomepageProjects,
-    variables: {
-      coverImageFormat: "webp",
-      coverImageCropPreset: "gridcover",
-    } as QueryProjectsArgs,
-  });
+  const projects = await getHomepageProjects();
 
   return (
     <StyledHomepage>
@@ -84,18 +68,18 @@ const page = async ({}: PageProps) => {
       />
       <HpQuoteServices>
         <RevealAnimation>
-          <Medium className='wide'>{homepageData.servicesQuote}</Medium>
+          <Medium className="wide">{homepageData.servicesQuote}</Medium>
         </RevealAnimation>
         <RevealAnimation delay={0.5} noCrop>
-          <Button className='skinny' href={"/o-nas"}>
+          <Button className="skinny" href={"/o-nas"}>
             O nás
           </Button>
         </RevealAnimation>
       </HpQuoteServices>
-      <HpProjects projects={Projects} />
+      <HpProjects projects={projects} />
       <HpProjectsCta>
         <RevealAnimation>
-          <Small className='wide'>
+          <Small className="wide">
             Dělá nám radost se podílet na rozmanitých a inovativních projektech,
             které nerezonují jen v lokálním prostředí, ale jsou uznávanou
             inspirací na celém světě.
