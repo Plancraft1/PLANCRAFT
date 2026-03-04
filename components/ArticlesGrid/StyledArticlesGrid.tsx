@@ -1,7 +1,7 @@
 "use client";
 import styled from "styled-components";
 
-export const StyledProjectsGrid = styled.div`
+export const StyledArticlesGrid = styled.div`
   display: grid;
 `;
 

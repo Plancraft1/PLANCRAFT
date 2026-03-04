@@ -1,8 +1,10 @@
 import { getArticlesByCategory, getArticleCategories } from "../../../lib/cms";
 import FilterBar, { FilterItem } from "../../../components/FilterBar/FilterBar";
 import ProjectsHero from "../../../components/ProjectsHero/ProjectsHero";
-import { Mini } from "../../../components/Typography/Mini";
-import { StyledArticles, ArticlesList } from "./(client)/StyledArticles";
+import ArticlesGrid, {
+  articlesPerPage,
+} from "../../../components/ArticlesGrid/ArticlesGrid";
+import { StyledArticles } from "./(client)/StyledArticles";
 import { articlesData } from "./(client)/articlesData";
 import { notFound } from "next/navigation";
 
@@ -31,7 +33,7 @@ const page = async ({ params }: PageProps) => {
   const [articles, categories] = await Promise.all([
     getArticlesByCategory({
       categorySlug: category,
-      limit: 20,
+      limit: articlesPerPage,
     }),
     getArticleCategories(),
   ]);
@@ -56,13 +58,7 @@ const page = async ({ params }: PageProps) => {
         perex={articlesData.heroPerex}
       />
       <FilterBar label="Filtry" filters={filters} className="no-padding" />
-      <ArticlesList>
-        {articles.items.map((article) => (
-          <li key={article._id}>
-            <Mini>{article.article_title}</Mini>
-          </li>
-        ))}
-      </ArticlesList>
+      <ArticlesGrid articles={articles} totalCount={articles.total} />
     </StyledArticles>
   );
 };

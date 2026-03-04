@@ -3,8 +3,8 @@
 import styled from "styled-components";
 import Divider from "../../components/Divider/Divider";
 import DividerHeader from "../../components/Divider/DividerHeader";
-import ProjectCard from "../../components/ProjectCard/ProjectCard";
-import { ProjectCardZoomW } from "../../components/ProjectCard/StyledProjectCard";
+import GridCard from "../../components/GridCard/GridCard";
+import { GridCardZoomW } from "../../components/GridCard/StyledGridCard";
 import { Mini } from "../../components/Typography/Mini";
 import Zoom from "../../components/Zoom/Zoom";
 import { device } from "../../consts/breakpoints";
@@ -38,16 +38,17 @@ const HpProjects = ({ projects }: HpProjectsProps) => {
               project_realization,
               project_cover,
             },
-            i,
+            i
           ) =>
             (p) => {
               return (
-                <ProjectCardZoomW key={_slug}>
-                  <ProjectCard
-                    projectName={project_name}
-                    services={project_category}
-                    realization={project_realization}
-                    slug={_slug}
+                <GridCardZoomW key={_slug}>
+                  <GridCard
+                    title={project_name}
+                    href={`/projekt/${_slug}`}
+                    tags={project_category.map((c) => c.service_name)}
+                    detail={`Realizace ${project_realization}`}
+                    ctaLabel="Zobrazit projekt"
                     image={{
                       src: project_cover.url,
                       width: project_cover.width,
@@ -58,9 +59,9 @@ const HpProjects = ({ projects }: HpProjectsProps) => {
                     progress={Number(p.toFixed(2))}
                   />
                   {projects.length - 1 !== i && <Divider hidePlus />}
-                </ProjectCardZoomW>
+                </GridCardZoomW>
               );
-            },
+            }
         )}
       />
     </StyledHpProjects>

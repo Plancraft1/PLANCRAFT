@@ -6,14 +6,10 @@ import { Fragment, useState } from "react";
 import type { Project, Projects } from "../../../../gql/types";
 import Button from "../../../../components/Button/Button";
 import Divider from "../../../../components/Divider/Divider";
-import ProjectCard from "../../../../components/ProjectCard/ProjectCard";
+import GridCard from "../../../../components/GridCard/GridCard";
 import RevealAnimation from "../../../../components/TextAnimation/RevealAnimation";
 import { loadMoreProjectsAction } from "./actions";
-import {
-  LoadMoreW,
-  ProjectCardW,
-  StyledProjectsGrid,
-} from "./StyledProjectsGrid";
+import { LoadMoreW, GridCardW, StyledProjectsGrid } from "./StyledProjectsGrid";
 
 interface ProjectsGridProps {
   projects: Projects;
@@ -62,12 +58,13 @@ const ProjectsGrid = ({
         ) => (
           <Fragment key={_slug}>
             <RevealAnimation>
-              <ProjectCardW>
-                <ProjectCard
-                  projectName={project_name}
-                  slug={_slug}
-                  realization={project_realization}
-                  services={project_category}
+              <GridCardW>
+                <GridCard
+                  title={project_name}
+                  href={`/projekt/${_slug}`}
+                  tags={project_category.map((c) => c.service_name)}
+                  detail={`Realizace ${project_realization}`}
+                  ctaLabel="Zobrazit projekt"
                   image={{
                     src: project_cover?.url,
                     width: project_cover?.width,
@@ -75,7 +72,7 @@ const ProjectsGrid = ({
                     alt: project_cover?.description || project_name,
                   }}
                 />
-              </ProjectCardW>
+              </GridCardW>
             </RevealAnimation>
             {!(i === projects.length) && <Divider hidePlus />}
           </Fragment>

@@ -100,7 +100,7 @@ async function fetchProjects(
       coverImageWidth: options.coverImageWidth,
       coverImageHeight: options.coverImageHeight,
       detailImageWidth: options.detailImageWidth,
-      detailImageHeight: options.detailImageHeight,
+      detailImaeeHeight: options.detailImageHeight,
       detailImageFormat: options.detailImageFormat,
     } as QueryProjectsArgs,
   });
@@ -287,7 +287,7 @@ export async function getArticlesByCategory(
         ? { article_category: { _slug_any: categoryFilter } }
         : undefined,
     coverImageFormat: options.coverImageFormat ?? "webp",
-    coverImageCropPreset: options.coverImageCropPreset ?? "gridcover",
+    coverImageCropPreset: options.coverImageCropPreset ?? "Square",
   });
 }
 
