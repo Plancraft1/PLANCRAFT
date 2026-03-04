@@ -25,11 +25,9 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean };
   Int: { input: number; output: number };
   Float: { input: number; output: number };
+  Locale: { input: any; output: any };
   _DateTime: { input: any; output: any };
 };
-
-/** This union type holds all content models. */
-export type AllModels = HomepageProjects | Project | Service;
 
 export type ApplePodcast = {
   __typename?: "ApplePodcast";
@@ -37,18 +35,27 @@ export type ApplePodcast = {
   url: Scalars["String"]["output"];
 };
 
-/** Prepr Asset model. */
+/** Prepr Asset system model */
 export type Asset = {
   __typename?: "Asset";
   /** Unique identifier for each asset. */
   _id: Scalars["String"]["output"];
+  _locale: Scalars["String"]["output"];
+  /** This field returns all localizations for this asset. */
+  _localizations: Array<Asset>;
   _type: Scalars["String"]["output"];
+  /** Contextual field; alignment of the asset when used in a content item. */
   alignment?: Maybe<AssetAlignment>;
   author?: Maybe<Scalars["String"]["output"]>;
+  /** Contextual field; caption of the asset when used in a content item. */
   caption?: Maybe<Scalars["String"]["output"]>;
+  /** Returns a cover image for audio/video files. */
   cover?: Maybe<Scalars["String"]["output"]>;
   description?: Maybe<Scalars["String"]["output"]>;
   duration?: Maybe<Scalars["Int"]["output"]>;
+  file_size: Scalars["Int"]["output"];
+  /** The focal point coordinates (x, y) represent percentages of the image dimensions, ranging from 0 to 100. */
+  focal_point?: Maybe<_FocalPoint>;
   height?: Maybe<Scalars["Int"]["output"]>;
   mime_type?: Maybe<Scalars["String"]["output"]>;
   name?: Maybe<Scalars["String"]["output"]>;
@@ -59,7 +66,7 @@ export type Asset = {
   width?: Maybe<Scalars["Int"]["output"]>;
 };
 
-/** Prepr Asset model. */
+/** Prepr Asset system model */
 export type AssetCoverArgs = {
   animated?: InputMaybe<Scalars["Boolean"]["input"]>;
   end?: InputMaybe<Scalars["Float"]["input"]>;
@@ -74,12 +81,13 @@ export type AssetCoverArgs = {
   width?: InputMaybe<Scalars["Int"]["input"]>;
 };
 
-/** Prepr Asset model. */
+/** Prepr Asset system model */
 export type AssetUrlArgs = {
   as_file?: InputMaybe<Scalars["Boolean"]["input"]>;
   crop?: InputMaybe<Scalars["String"]["input"]>;
   format?: InputMaybe<Scalars["String"]["input"]>;
   height?: InputMaybe<Scalars["Int"]["input"]>;
+  inline?: InputMaybe<Scalars["Boolean"]["input"]>;
   preset?: InputMaybe<Scalars["String"]["input"]>;
   quality?: InputMaybe<Scalars["Int"]["input"]>;
   res?: InputMaybe<Scalars["String"]["input"]>;
@@ -99,6 +107,16 @@ export type Assets = {
   items?: Maybe<Array<Maybe<Asset>>>;
 };
 
+export type AssetsWhereInput = {
+  _id_any?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
+};
+
+export type BlueskyPost = {
+  __typename?: "BlueskyPost";
+  _id: Scalars["String"]["output"];
+  url: Scalars["String"]["output"];
+};
+
 /** A component is a predefined set of fields that can be used in models. You can think of a component as a flexible, reusable template where you define fields once, and then fill them with different content every time you use it. */
 export type Component = {
   _context?: Maybe<Context>;
@@ -108,8 +126,8 @@ export type Component = {
 
 export type ContentItems = {
   __typename?: "ContentItems";
-  items?: Maybe<Array<Maybe<AllModels>>>;
-  total?: Maybe<Scalars["Int"]["output"]>;
+  items: Array<Model>;
+  total: Scalars["Int"]["output"];
 };
 
 export enum ContentItemsSortInput {
@@ -131,8 +149,6 @@ export type ContentItemsWhereInput = {
   _search?: InputMaybe<Scalars["String"]["input"]>;
   _search_options?: InputMaybe<SearchOptionsInput>;
   _slug_any?: InputMaybe<Array<Scalars["String"]["input"]>>;
-  _stories_any?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
-  _stories_nany?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
   _tags_all?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
   _tags_any?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
   _tags_has?: InputMaybe<Scalars["Boolean"]["input"]>;
@@ -142,37 +158,27 @@ export type ContentItemsWhereInput = {
 
 export type Context = {
   __typename?: "Context";
-  countries?: Maybe<Array<Scalars["String"]["output"]>>;
+  /** The unique identifier for an A/B test or personalization block used for analytics. */
   group_id?: Maybe<Scalars["String"]["output"]>;
+  /** Returns the kind of personalized content: `PERSONALIZATION` | `AB_TEST`. */
   kind?: Maybe<Scalars["String"]["output"]>;
   segments?: Maybe<Array<Scalars["String"]["output"]>>;
+  /** A variant ID is a unique identifier assigned to each variant in an A/B test (A/B) or personalization and contains the segments it has been linked too. */
   variant_id?: Maybe<Scalars["String"]["output"]>;
+  /** The unique identifier for an A/B test or personalization variant used for analytics. */
+  variant_key?: Maybe<Scalars["String"]["output"]>;
 };
 
 /** Represents a geolocation point with latitude and longitude. */
 export type Coordinates = {
   __typename?: "Coordinates";
   _id: Scalars["String"]["output"];
-  _type?: Maybe<Scalars["String"]["output"]>;
-  latitude?: Maybe<Scalars["Float"]["output"]>;
-  longitude?: Maybe<Scalars["Float"]["output"]>;
+  latitude: Scalars["Float"]["output"];
+  longitude: Scalars["Float"]["output"];
 };
 
-/** The Customer Relation type is specifying the kind of relationship between the customer and your content. */
-export enum CustomerRelationType {
-  Bookmarked = "BOOKMARKED",
-  Clicked = "CLICKED",
-  Commented = "COMMENTED",
-  Liked = "LIKED",
-  Purchased = "PURCHASED",
-  Shared = "SHARED",
-  Subscribed = "SUBSCRIBED",
-  Viewed = "VIEWED",
-  Voted = "VOTED",
-}
-
 export type CustomerRelationWhereInput = {
-  _type?: InputMaybe<CustomerRelationType>;
+  event: _Event;
   id?: InputMaybe<Scalars["String"]["input"]>;
   reference_id?: InputMaybe<Scalars["String"]["input"]>;
 };
@@ -180,52 +186,57 @@ export type CustomerRelationWhereInput = {
 export type FacebookPost = {
   __typename?: "FacebookPost";
   _id: Scalars["String"]["output"];
-  _type?: Maybe<Scalars["String"]["output"]>;
-  url?: Maybe<Scalars["String"]["output"]>;
+  url: Scalars["String"]["output"];
 };
 
 /** Single HomepageProjects. */
 export type HomepageProjects = Model & {
   __typename?: "HomepageProjects";
   /** Count of bookmark events. */
-  _bookmarks?: Maybe<Scalars["Int"]["output"]>;
+  _bookmarks: Scalars["Int"]["output"];
   /** The time the content item was changed. */
   _changed_on: Scalars["String"]["output"];
-  /** Count of clicktrough events. */
-  _clicktroughs?: Maybe<Scalars["Int"]["output"]>;
-  /** Count of comment events. */
-  _comments?: Maybe<Scalars["Int"]["output"]>;
   _context?: Maybe<Context>;
   /** The time the content item was created. */
   _created_on: Scalars["String"]["output"];
   /** Id of your Prepr Environment. */
   _environment_id: Scalars["String"]["output"];
+  /** Count of view events. */
+  _event: Scalars["Int"]["output"];
   /** Unique identifier for each content item. */
   _id: Scalars["String"]["output"];
+  _last_published_on?: Maybe<Scalars["String"]["output"]>;
   /** Count of like events. */
-  _likes?: Maybe<Scalars["Int"]["output"]>;
+  _likes: Scalars["Int"]["output"];
   _locale: Scalars["String"]["output"];
   _locales: Array<Scalars["String"]["output"]>;
   /** This field returns all localizations for this content item. */
   _localizations: Array<HomepageProjects>;
   /** The time for when the content item is or will be published. */
   _publish_on?: Maybe<Scalars["String"]["output"]>;
-  /** Count of purchase events. */
-  _purchases?: Maybe<Scalars["Int"]["output"]>;
   /** Calculated time to read in minutes. */
   _read_time?: Maybe<Scalars["Int"]["output"]>;
-  /** Count of share events. */
-  _shares?: Maybe<Scalars["Int"]["output"]>;
   /** Unique within Type, string identifier for each content item. */
   _slug?: Maybe<Scalars["String"]["output"]>;
   /** Count of subscribe events. */
-  _subscribes?: Maybe<Scalars["Int"]["output"]>;
+  _subscribes: Scalars["Int"]["output"];
   /** Count of view events. */
-  _views?: Maybe<Scalars["Int"]["output"]>;
-  /** Count of vote events. */
-  _votes?: Maybe<Scalars["Int"]["output"]>;
+  _views: Scalars["Int"]["output"];
   homepageprojects: Array<Project>;
   prepr_display_name?: Maybe<Scalars["String"]["output"]>;
+};
+
+/** Single HomepageProjects. */
+export type HomepageProjects_EventArgs = {
+  name?: _Event;
+};
+
+/** Embedded HubSpot form. */
+export type HubSpotEmbed = {
+  __typename?: "HubSpotEmbed";
+  _id: Scalars["String"]["output"];
+  /** HubSpot form ID */
+  embed_id: Scalars["String"]["output"];
 };
 
 /** ImagesRow component. */
@@ -239,8 +250,7 @@ export type ImagesRow = Component & {
 export type InstagramPost = {
   __typename?: "InstagramPost";
   _id: Scalars["String"]["output"];
-  _type?: Maybe<Scalars["String"]["output"]>;
-  url?: Maybe<Scalars["String"]["output"]>;
+  url: Scalars["String"]["output"];
 };
 
 /** A model is the content structure of a content item that is used in multiple locations in your CMS. A model consists of a number of fields to store your content. Common examples of models are articles, landing pages and products. */
@@ -252,6 +262,10 @@ export type Model = {
   _created_on: Scalars["String"]["output"];
   /** Unique identifier for each content item. */
   _id: Scalars["String"]["output"];
+  /** The returned locale for this item. */
+  _locale: Scalars["String"]["output"];
+  /** List of locales this item is available in. */
+  _locales: Array<Scalars["String"]["output"]>;
   /** The time for when the content item is or will be published. */
   _publish_on?: Maybe<Scalars["String"]["output"]>;
   /** Calculated time to read in minutes. */
@@ -263,7 +277,6 @@ export type Model = {
 export type NavigationItem = {
   __typename?: "NavigationItem";
   _id: Scalars["String"]["output"];
-  _type?: Maybe<Scalars["String"]["output"]>;
   body?: Maybe<Scalars["String"]["output"]>;
   description?: Maybe<Scalars["String"]["output"]>;
   slug?: Maybe<Scalars["String"]["output"]>;
@@ -271,46 +284,47 @@ export type NavigationItem = {
   url?: Maybe<Scalars["String"]["output"]>;
 };
 
+/** Embedded Pipedrive Web Form. */
+export type PipedriveEmbed = {
+  __typename?: "PipedriveEmbed";
+  _id: Scalars["String"]["output"];
+  /** Pipedrive Web Form URL */
+  url: Scalars["String"]["output"];
+};
+
 /** Single Project. */
 export type Project = Model & {
   __typename?: "Project";
   /** Count of bookmark events. */
-  _bookmarks?: Maybe<Scalars["Int"]["output"]>;
+  _bookmarks: Scalars["Int"]["output"];
   /** The time the content item was changed. */
   _changed_on: Scalars["String"]["output"];
-  /** Count of clicktrough events. */
-  _clicktroughs?: Maybe<Scalars["Int"]["output"]>;
-  /** Count of comment events. */
-  _comments?: Maybe<Scalars["Int"]["output"]>;
   _context?: Maybe<Context>;
   /** The time the content item was created. */
   _created_on: Scalars["String"]["output"];
   /** Id of your Prepr Environment. */
   _environment_id: Scalars["String"]["output"];
+  /** Count of view events. */
+  _event: Scalars["Int"]["output"];
   /** Unique identifier for each content item. */
   _id: Scalars["String"]["output"];
+  _last_published_on?: Maybe<Scalars["String"]["output"]>;
   /** Count of like events. */
-  _likes?: Maybe<Scalars["Int"]["output"]>;
+  _likes: Scalars["Int"]["output"];
   _locale: Scalars["String"]["output"];
   _locales: Array<Scalars["String"]["output"]>;
   /** This field returns all localizations for this content item. */
   _localizations: Array<Project>;
   /** The time for when the content item is or will be published. */
   _publish_on?: Maybe<Scalars["String"]["output"]>;
-  /** Count of purchase events. */
-  _purchases?: Maybe<Scalars["Int"]["output"]>;
   /** Calculated time to read in minutes. */
   _read_time?: Maybe<Scalars["Int"]["output"]>;
-  /** Count of share events. */
-  _shares?: Maybe<Scalars["Int"]["output"]>;
   /** Unique within Type, string identifier for each content item. */
   _slug?: Maybe<Scalars["String"]["output"]>;
   /** Count of subscribe events. */
-  _subscribes?: Maybe<Scalars["Int"]["output"]>;
+  _subscribes: Scalars["Int"]["output"];
   /** Count of view events. */
-  _views?: Maybe<Scalars["Int"]["output"]>;
-  /** Count of vote events. */
-  _votes?: Maybe<Scalars["Int"]["output"]>;
+  _views: Scalars["Int"]["output"];
   is_featured?: Maybe<Scalars["Boolean"]["output"]>;
   next_project: Array<Project>;
   project_body?: Maybe<Array<Maybe<_Prepr_Types>>>;
@@ -321,7 +335,13 @@ export type Project = Model & {
   project_description?: Maybe<Scalars["String"]["output"]>;
   project_name?: Maybe<Scalars["String"]["output"]>;
   project_realization?: Maybe<Scalars["String"]["output"]>;
+  project_subheader?: Maybe<Scalars["String"]["output"]>;
   project_table: Array<TableRow>;
+};
+
+/** Single Project. */
+export type Project_EventArgs = {
+  name?: _Event;
 };
 
 /** Single Project. */
@@ -348,6 +368,8 @@ export enum ProjectSortInput {
   ProjectNameDesc = "project_name_DESC",
   ProjectRealizationAsc = "project_realization_ASC",
   ProjectRealizationDesc = "project_realization_DESC",
+  ProjectSubheaderAsc = "project_subheader_ASC",
+  ProjectSubheaderDesc = "project_subheader_DESC",
   PublishOn = "publish_on",
   PublishOnAsc = "publish_on_ASC",
   PublishOnDesc = "publish_on_DESC",
@@ -355,17 +377,23 @@ export enum ProjectSortInput {
 
 export type ProjectWhereInput = {
   _changed_on_gt?: InputMaybe<Scalars["_DateTime"]["input"]>;
+  _changed_on_gte?: InputMaybe<Scalars["_DateTime"]["input"]>;
   _changed_on_lt?: InputMaybe<Scalars["_DateTime"]["input"]>;
+  _changed_on_lte?: InputMaybe<Scalars["_DateTime"]["input"]>;
   _created_on_gt?: InputMaybe<Scalars["_DateTime"]["input"]>;
+  _created_on_gte?: InputMaybe<Scalars["_DateTime"]["input"]>;
   _created_on_lt?: InputMaybe<Scalars["_DateTime"]["input"]>;
+  _created_on_lte?: InputMaybe<Scalars["_DateTime"]["input"]>;
   /** Matches if the Id field is equal to one of the items in the given list. */
   _id_any?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
   /** Matches if the Id field is not equal to one of the items in the given list. */
   _id_nany?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
-  /** The `_or` filter returns a filter value if at least one of the clause in the _or is true. This beta filter currently supports the `Id`, `Slug`, `Created On`, `Changed On, `Published On`, `Text`, `Integer`, `Float` and `DateTime` field types. */
+  /** The `_or` filter returns a filter value if at least one of the clause in the _or is true. This beta filter currently supports the Id, Slug, Created On, Changed On, Published On, Text, Integer, Float, Boolean, and DateTime field types, for references only Text, Integer, Float, Boolean and exists (at least one item) fields are supported. */
   _or?: InputMaybe<Array<ProjectWhereInput>>;
   _publish_on_gt?: InputMaybe<Scalars["_DateTime"]["input"]>;
+  _publish_on_gte?: InputMaybe<Scalars["_DateTime"]["input"]>;
   _publish_on_lt?: InputMaybe<Scalars["_DateTime"]["input"]>;
+  _publish_on_lte?: InputMaybe<Scalars["_DateTime"]["input"]>;
   /** Matches any content item containing the given text term (full-text search). */
   _search?: InputMaybe<Scalars["String"]["input"]>;
   _search_options?: InputMaybe<SearchOptionsInput>;
@@ -381,16 +409,26 @@ export type ProjectWhereInput = {
   _tags_nany?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
   /** Matches if the field is equal to the given value. */
   is_featured?: InputMaybe<Scalars["Boolean"]["input"]>;
+  /** Match on Project fields. */
   next_project?: InputMaybe<ProjectWhereInput>;
+  /** Match on Service fields. */
   project_category?: InputMaybe<ServiceWhereInput>;
   /** Matches if the field is equal to the given value. */
   project_client_quote?: InputMaybe<Scalars["String"]["input"]>;
+  /** Matches if the field matches any of the given values. */
+  project_client_quote_any?: InputMaybe<
+    Array<InputMaybe<Scalars["String"]["input"]>>
+  >;
   /** Full fuzzy text search, not case sensitive. */
   project_client_quote_contains?: InputMaybe<Scalars["String"]["input"]>;
   /** Matches if the field ends with the given value. */
   project_client_quote_ends_with?: InputMaybe<Scalars["String"]["input"]>;
   /** Matches if the field is equal to the given value. */
   project_client_quote_name?: InputMaybe<Scalars["String"]["input"]>;
+  /** Matches if the field matches any of the given values. */
+  project_client_quote_name_any?: InputMaybe<
+    Array<InputMaybe<Scalars["String"]["input"]>>
+  >;
   /** Full fuzzy text search, not case sensitive. */
   project_client_quote_name_contains?: InputMaybe<Scalars["String"]["input"]>;
   /** Matches if the field ends with the given value. */
@@ -407,8 +445,13 @@ export type ProjectWhereInput = {
   project_client_quote_not_contains?: InputMaybe<Scalars["String"]["input"]>;
   /** Matches if the field starts with the given value. */
   project_client_quote_starts_with?: InputMaybe<Scalars["String"]["input"]>;
+  project_cover?: InputMaybe<AssetsWhereInput>;
   /** Matches if the field is equal to the given value. */
   project_description?: InputMaybe<Scalars["String"]["input"]>;
+  /** Matches if the field matches any of the given values. */
+  project_description_any?: InputMaybe<
+    Array<InputMaybe<Scalars["String"]["input"]>>
+  >;
   /** Full fuzzy text search, not case sensitive. */
   project_description_contains?: InputMaybe<Scalars["String"]["input"]>;
   /** Matches if the field ends with the given value. */
@@ -419,6 +462,8 @@ export type ProjectWhereInput = {
   project_description_starts_with?: InputMaybe<Scalars["String"]["input"]>;
   /** Matches if the field is equal to the given value. */
   project_name?: InputMaybe<Scalars["String"]["input"]>;
+  /** Matches if the field matches any of the given values. */
+  project_name_any?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
   /** Full fuzzy text search, not case sensitive. */
   project_name_contains?: InputMaybe<Scalars["String"]["input"]>;
   /** Matches if the field ends with the given value. */
@@ -429,6 +474,10 @@ export type ProjectWhereInput = {
   project_name_starts_with?: InputMaybe<Scalars["String"]["input"]>;
   /** Matches if the field is equal to the given value. */
   project_realization?: InputMaybe<Scalars["String"]["input"]>;
+  /** Matches if the field matches any of the given values. */
+  project_realization_any?: InputMaybe<
+    Array<InputMaybe<Scalars["String"]["input"]>>
+  >;
   /** Full fuzzy text search, not case sensitive. */
   project_realization_contains?: InputMaybe<Scalars["String"]["input"]>;
   /** Matches if the field ends with the given value. */
@@ -437,6 +486,20 @@ export type ProjectWhereInput = {
   project_realization_not_contains?: InputMaybe<Scalars["String"]["input"]>;
   /** Matches if the field starts with the given value. */
   project_realization_starts_with?: InputMaybe<Scalars["String"]["input"]>;
+  /** Matches if the field is equal to the given value. */
+  project_subheader?: InputMaybe<Scalars["String"]["input"]>;
+  /** Matches if the field matches any of the given values. */
+  project_subheader_any?: InputMaybe<
+    Array<InputMaybe<Scalars["String"]["input"]>>
+  >;
+  /** Full fuzzy text search, not case sensitive. */
+  project_subheader_contains?: InputMaybe<Scalars["String"]["input"]>;
+  /** Matches if the field ends with the given value. */
+  project_subheader_ends_with?: InputMaybe<Scalars["String"]["input"]>;
+  /** Excludes with full fuzzy text search, not case sensitive. */
+  project_subheader_not_contains?: InputMaybe<Scalars["String"]["input"]>;
+  /** Matches if the field starts with the given value. */
+  project_subheader_starts_with?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 /** List of Projects items. */
@@ -448,7 +511,7 @@ export type Projects = {
 
 export type Query = {
   __typename?: "Query";
-  /** Retrieve content items from all models. */
+  /** Retrieve items from different model types at once. */
   ContentItems?: Maybe<ContentItems>;
   /** Retrieve HomepageProjects. */
   HomepageProjects?: Maybe<HomepageProjects>;
@@ -472,6 +535,10 @@ export type Query = {
   Similar_Projects?: Maybe<Projects>;
   /** Recommendation recipe suitable for recommending Services which are similar to the giving item */
   Similar_Services?: Maybe<Services>;
+  /** Locale that is set as default. */
+  _DefaultLocale: Scalars["Locale"]["output"];
+  /** Retrieve the list of available locales. */
+  _Locales?: Maybe<Array<Scalars["Locale"]["output"]>>;
 };
 
 export type QueryContentItemsArgs = {
@@ -581,7 +648,6 @@ export type QuerySimilar_ServicesArgs = {
 export type Quote = {
   __typename?: "Quote";
   _id: Scalars["String"]["output"];
-  _type?: Maybe<Scalars["String"]["output"]>;
   author?: Maybe<Scalars["String"]["output"]>;
   body?: Maybe<Scalars["String"]["output"]>;
 };
@@ -589,7 +655,6 @@ export type Quote = {
 export type Resource = {
   __typename?: "Resource";
   _id: Scalars["String"]["output"];
-  _type?: Maybe<Scalars["String"]["output"]>;
   body?: Maybe<Scalars["String"]["output"]>;
   type?: Maybe<Scalars["String"]["output"]>;
   url?: Maybe<Scalars["String"]["output"]>;
@@ -604,43 +669,41 @@ export type SearchOptionsInput = {
 export type Service = Model & {
   __typename?: "Service";
   /** Count of bookmark events. */
-  _bookmarks?: Maybe<Scalars["Int"]["output"]>;
+  _bookmarks: Scalars["Int"]["output"];
   /** The time the content item was changed. */
   _changed_on: Scalars["String"]["output"];
-  /** Count of clicktrough events. */
-  _clicktroughs?: Maybe<Scalars["Int"]["output"]>;
-  /** Count of comment events. */
-  _comments?: Maybe<Scalars["Int"]["output"]>;
   _context?: Maybe<Context>;
   /** The time the content item was created. */
   _created_on: Scalars["String"]["output"];
   /** Id of your Prepr Environment. */
   _environment_id: Scalars["String"]["output"];
+  /** Count of view events. */
+  _event: Scalars["Int"]["output"];
   /** Unique identifier for each content item. */
   _id: Scalars["String"]["output"];
+  _last_published_on?: Maybe<Scalars["String"]["output"]>;
   /** Count of like events. */
-  _likes?: Maybe<Scalars["Int"]["output"]>;
+  _likes: Scalars["Int"]["output"];
   _locale: Scalars["String"]["output"];
   _locales: Array<Scalars["String"]["output"]>;
   /** This field returns all localizations for this content item. */
   _localizations: Array<Service>;
   /** The time for when the content item is or will be published. */
   _publish_on?: Maybe<Scalars["String"]["output"]>;
-  /** Count of purchase events. */
-  _purchases?: Maybe<Scalars["Int"]["output"]>;
   /** Calculated time to read in minutes. */
   _read_time?: Maybe<Scalars["Int"]["output"]>;
-  /** Count of share events. */
-  _shares?: Maybe<Scalars["Int"]["output"]>;
   /** Unique within Type, string identifier for each content item. */
   _slug?: Maybe<Scalars["String"]["output"]>;
   /** Count of subscribe events. */
-  _subscribes?: Maybe<Scalars["Int"]["output"]>;
+  _subscribes: Scalars["Int"]["output"];
   /** Count of view events. */
-  _views?: Maybe<Scalars["Int"]["output"]>;
-  /** Count of vote events. */
-  _votes?: Maybe<Scalars["Int"]["output"]>;
+  _views: Scalars["Int"]["output"];
   service_name?: Maybe<Scalars["String"]["output"]>;
+};
+
+/** Single Service. */
+export type Service_EventArgs = {
+  name?: _Event;
 };
 
 export enum ServiceSortInput {
@@ -659,17 +722,23 @@ export enum ServiceSortInput {
 
 export type ServiceWhereInput = {
   _changed_on_gt?: InputMaybe<Scalars["_DateTime"]["input"]>;
+  _changed_on_gte?: InputMaybe<Scalars["_DateTime"]["input"]>;
   _changed_on_lt?: InputMaybe<Scalars["_DateTime"]["input"]>;
+  _changed_on_lte?: InputMaybe<Scalars["_DateTime"]["input"]>;
   _created_on_gt?: InputMaybe<Scalars["_DateTime"]["input"]>;
+  _created_on_gte?: InputMaybe<Scalars["_DateTime"]["input"]>;
   _created_on_lt?: InputMaybe<Scalars["_DateTime"]["input"]>;
+  _created_on_lte?: InputMaybe<Scalars["_DateTime"]["input"]>;
   /** Matches if the Id field is equal to one of the items in the given list. */
   _id_any?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
   /** Matches if the Id field is not equal to one of the items in the given list. */
   _id_nany?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
-  /** The `_or` filter returns a filter value if at least one of the clause in the _or is true. This beta filter currently supports the `Id`, `Slug`, `Created On`, `Changed On, `Published On`, `Text`, `Integer`, `Float` and `DateTime` field types. */
+  /** The `_or` filter returns a filter value if at least one of the clause in the _or is true. This beta filter currently supports the Id, Slug, Created On, Changed On, Published On, Text, Integer, Float, Boolean, and DateTime field types, for references only Text, Integer, Float, Boolean and exists (at least one item) fields are supported. */
   _or?: InputMaybe<Array<ServiceWhereInput>>;
   _publish_on_gt?: InputMaybe<Scalars["_DateTime"]["input"]>;
+  _publish_on_gte?: InputMaybe<Scalars["_DateTime"]["input"]>;
   _publish_on_lt?: InputMaybe<Scalars["_DateTime"]["input"]>;
+  _publish_on_lte?: InputMaybe<Scalars["_DateTime"]["input"]>;
   /** Matches any content item containing the given text term (full-text search). */
   _search?: InputMaybe<Scalars["String"]["input"]>;
   _search_options?: InputMaybe<SearchOptionsInput>;
@@ -685,6 +754,8 @@ export type ServiceWhereInput = {
   _tags_nany?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
   /** Matches if the field is equal to the given value. */
   service_name?: InputMaybe<Scalars["String"]["input"]>;
+  /** Matches if the field matches any of the given values. */
+  service_name_any?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
   /** Full fuzzy text search, not case sensitive. */
   service_name_contains?: InputMaybe<Scalars["String"]["input"]>;
   /** Matches if the field ends with the given value. */
@@ -714,15 +785,13 @@ export type SimilarRulesInput = {
 export type SoundCloudPost = {
   __typename?: "SoundCloudPost";
   _id: Scalars["String"]["output"];
-  _type?: Maybe<Scalars["String"]["output"]>;
-  url?: Maybe<Scalars["String"]["output"]>;
+  url: Scalars["String"]["output"];
 };
 
 export type SpotifyPlaylist = {
   __typename?: "SpotifyPlaylist";
   _id: Scalars["String"]["output"];
-  _type?: Maybe<Scalars["String"]["output"]>;
-  url?: Maybe<Scalars["String"]["output"]>;
+  url: Scalars["String"]["output"];
 };
 
 /** TableRow component. */
@@ -737,7 +806,6 @@ export type TableRow = Component & {
 export type Text = {
   __typename?: "Text";
   _id: Scalars["String"]["output"];
-  _type?: Maybe<Scalars["String"]["output"]>;
   body?: Maybe<Scalars["String"]["output"]>;
   format?: Maybe<TextFormat>;
   html?: Maybe<Scalars["String"]["output"]>;
@@ -755,32 +823,42 @@ export enum TextFormat {
   Html = "HTML",
 }
 
+export type ThreadsPost = {
+  __typename?: "ThreadsPost";
+  _id: Scalars["String"]["output"];
+  url: Scalars["String"]["output"];
+};
+
 export type TikTokPost = {
   __typename?: "TikTokPost";
   _id: Scalars["String"]["output"];
-  _type?: Maybe<Scalars["String"]["output"]>;
-  url?: Maybe<Scalars["String"]["output"]>;
+  url: Scalars["String"]["output"];
 };
 
 export type TwitterPost = {
   __typename?: "TwitterPost";
   _id: Scalars["String"]["output"];
-  _type?: Maybe<Scalars["String"]["output"]>;
-  url?: Maybe<Scalars["String"]["output"]>;
+  url: Scalars["String"]["output"];
+};
+
+/** Embedded Typeform form. */
+export type TypeformEmbed = {
+  __typename?: "TypeformEmbed";
+  _id: Scalars["String"]["output"];
+  /** Typeform form ID */
+  embed_id: Scalars["String"]["output"];
 };
 
 export type VimeoPost = {
   __typename?: "VimeoPost";
   _id: Scalars["String"]["output"];
-  _type?: Maybe<Scalars["String"]["output"]>;
-  url?: Maybe<Scalars["String"]["output"]>;
+  url: Scalars["String"]["output"];
 };
 
 export type YouTubePost = {
   __typename?: "YouTubePost";
   _id: Scalars["String"]["output"];
-  _type?: Maybe<Scalars["String"]["output"]>;
-  url?: Maybe<Scalars["String"]["output"]>;
+  url: Scalars["String"]["output"];
 };
 
 /** Event type is specifying the kind of event the customer has with your content. */
@@ -796,22 +874,33 @@ export enum _Event {
   Vote = "Vote",
 }
 
+export type _FocalPoint = {
+  __typename?: "_FocalPoint";
+  x: Scalars["Int"]["output"];
+  y: Scalars["Int"]["output"];
+};
+
 /** This union type contains all components and remote sources. */
 export type _Prepr_Types =
   | ApplePodcast
   | Assets
+  | BlueskyPost
   | Coordinates
   | FacebookPost
+  | HubSpotEmbed
   | ImagesRow
   | InstagramPost
   | NavigationItem
+  | PipedriveEmbed
   | Quote
   | Resource
   | SoundCloudPost
   | SpotifyPlaylist
   | TableRow
   | Text
+  | ThreadsPost
   | TikTokPost
   | TwitterPost
+  | TypeformEmbed
   | VimeoPost
   | YouTubePost;
