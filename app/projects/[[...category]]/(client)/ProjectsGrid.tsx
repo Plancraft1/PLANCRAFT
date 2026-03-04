@@ -1,6 +1,6 @@
 "use client";
 
-import { useLazyQuery } from "@apollo/client";
+import { useLazyQuery } from "@apollo/client/react";
 import { useParams } from "next/navigation";
 import { Fragment, useState } from "react";
 import getClient from "../../../../apollo/client";
@@ -40,11 +40,25 @@ const ProjectsGrid = ({
 
   const [getProjects, { loading }] = useLazyQuery<Query>(GetProjects, {
     client: client,
-    onCompleted(data) {
+  });
+
+  const handleLoadMore = async () => {
+    const { data } = await getProjects({
+      variables: {
+        locale: "cs-CZ",
+        skip: skip,
+        limit: projectsPerPage,
+        where: {
+          project_category: { _slug_any: query.category || [] },
+        },
+      } as QueryProjectsArgs,
+    });
+
+    if (data) {
       setSkip((p) => p + projectsPerPage);
       setProjects((p) => [...p, ...data.Projects.items]);
-    },
-  });
+    }
+  };
 
   return (
     <StyledProjectsGrid>
@@ -57,7 +71,7 @@ const ProjectsGrid = ({
             project_category,
             project_cover,
           },
-          i,
+          i
         ) => (
           <Fragment key={_slug}>
             <RevealAnimation>
@@ -78,25 +92,12 @@ const ProjectsGrid = ({
             </RevealAnimation>
             {!(i === projects.length) && <Divider hidePlus />}
           </Fragment>
-        ),
+        )
       )}
       {totalCount > projects.length && (
         <LoadMoreW>
           <RevealAnimation noCrop>
-            <Button
-              onClick={() => {
-                getProjects({
-                  variables: {
-                    locale: "cs-CZ",
-                    skip: skip,
-                    limit: projectsPerPage,
-                    where: {
-                      project_category: { _slug_any: query.category || [] },
-                    },
-                  } as QueryProjectsArgs,
-                });
-              }}
-            >
+            <Button onClick={handleLoadMore}>
               {loading ? "Načítám" : "Další projekty"}
             </Button>
           </RevealAnimation>
