@@ -38,10 +38,11 @@ export async function generateMetadata() {
 export const revalidate = 10;
 
 interface PageProps {
-  params: { category: string };
+  params: Promise<{ category: string }>;
 }
 
-const page = async ({ params: { category } }: PageProps) => {
+const page = async ({ params }: PageProps) => {
+  const { category } = await params;
   const client = getClient();
 
   const {

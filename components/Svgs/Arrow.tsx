@@ -31,6 +31,7 @@ const Arrow = ({
     >
       <path d={`M5 1 L 11 8 L 5 15`} />
       <motion.path
+        d="M 0 8 L 0 8"
         animate={{ d: animate ? "M 0 8 L 11 8" : "M 0 8 L 0 8" }}
         transition={{ ease: easingInOutCubic }}
       />

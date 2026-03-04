@@ -21,8 +21,10 @@ import {
 } from "./(client)/StyledService";
 import { servicesData } from "./servicesData";
 
-export function generateMetadata({ params }: PageProps): Metadata {
-  const slug = params.slug;
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const { slug } = await params;
   return {
     title: `Služba\u2002|\u2002${servicesData[slug].name}`,
     description: servicesData[slug].introPerex,
@@ -36,10 +38,11 @@ export function generateMetadata({ params }: PageProps): Metadata {
 export const revalidate = 10;
 
 interface PageProps {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
-const page = async ({ params: { slug } }: PageProps) => {
+const page = async ({ params }: PageProps) => {
+  const { slug } = await params;
   const data = servicesData[slug];
 
   const client = getClient();

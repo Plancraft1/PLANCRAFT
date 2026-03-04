@@ -34,13 +34,14 @@ const Burger = ({
   return (
     <StyledBurger
       onClick={onClick}
-      xmlns='http://www.w3.org/2000/svg'
+      xmlns="http://www.w3.org/2000/svg"
       width={svgWidth}
       height={svgHeight}
-      fill='none'
+      fill="none"
       viewBox={`0 0 ${svgWidth} ${svgHeight}`}
     >
       <motion.path
+        d={`M 0 ${strokeWidth / 2} L ${svgWidth} ${strokeWidth / 2}`}
         transition={{ ease: easing }}
         animate={{
           d: isOpen
@@ -54,6 +55,7 @@ const Burger = ({
         vectorEffect={"non-scaling-stroke"}
       />
       <motion.path
+        d={`M 0 ${svgHeight / 2} H ${svgWidth}`}
         transition={{ ease: easing }}
         animate={{
           d: isOpen
@@ -65,6 +67,9 @@ const Burger = ({
         vectorEffect={"non-scaling-stroke"}
       />
       <motion.path
+        d={`M 0 ${svgHeight - strokeWidth / 2} L ${svgWidth} ${
+          svgHeight - strokeWidth / 2
+        }`}
         transition={{ ease: easing }}
         animate={{
           d: isOpen

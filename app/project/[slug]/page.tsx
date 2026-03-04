@@ -18,9 +18,10 @@ import {
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
+  const { slug } = await params;
   const {
     data: { Projects },
-  } = await getProjectData(params.slug);
+  } = await getProjectData(slug);
   const { project_name, project_description, project_cover } =
     Projects.items[0];
 
@@ -38,7 +39,7 @@ export async function generateMetadata({
 export const revalidate = 10;
 
 interface PageProps {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 async function getProjectData(slug: string) {
@@ -53,7 +54,8 @@ async function getProjectData(slug: string) {
   });
 }
 
-const page = async ({ params: { slug } }: PageProps) => {
+const page = async ({ params }: PageProps) => {
+  const { slug } = await params;
   const {
     data: {
       Projects: { items: projects },

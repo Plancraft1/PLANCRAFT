@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ButtonHTMLAttributes, ReactNode, useState } from "react";
+import React, { ButtonHTMLAttributes, JSX, ReactNode, useState } from "react";
 import Divider from "../Divider/Divider";
 import { ButtonInner, ButtonLink, Cap, StyledButton } from "./StyledButton";
 
