@@ -20,7 +20,7 @@ export type ServiceContentItem = Bullets | Text | Header;
 export type Cabinet = {
   mainHeader: string;
   list: {
-    slug?: string;
+    slug: string;
     linkLabel?: string;
     header: string;
     image: ImageProps;
