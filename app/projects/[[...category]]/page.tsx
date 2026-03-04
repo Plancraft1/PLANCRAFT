@@ -2,18 +2,10 @@ import { Metadata } from "next";
 import { homepageData } from "../../(client)/homepageData";
 import { getProjectsByCategory, getServices } from "../../../lib/cms";
 import ClientQuote from "../../../components/ClientQuote/ClientQuote";
-import DividerHeader from "../../../components/Divider/DividerHeader";
-import RevealAnimation from "../../../components/TextAnimation/RevealAnimation";
-import { Large } from "../../../components/Typography/Large";
-import { Mini } from "../../../components/Typography/Mini";
+import FilterBar, { FilterItem } from "../../../components/FilterBar/FilterBar";
+import ProjectsHero from "../../../components/ProjectsHero/ProjectsHero";
 import ProjectsGrid from "./(client)/ProjectsGrid";
-import {
-  ProjectDividerHeaderInner,
-  ProjectFilter,
-  ProjectFilters,
-  ProjectsHero,
-  StyledProjects,
-} from "./(client)/StyledProjects";
+import { StyledProjects } from "./(client)/StyledProjects";
 import { projectsData } from "./(client)/projectsData";
 import { notFound } from "next/navigation";
 
@@ -55,47 +47,22 @@ const page = async ({ params }: PageProps) => {
     notFound();
   }
 
+  const filters: FilterItem[] = [
+    { label: "Vše", href: "/projekty", isActive: !category },
+    ...services.items.map(({ service_name, _slug }) => ({
+      label: service_name,
+      href: `/projekty/${_slug}`,
+      isActive: category?.includes(_slug) ?? false,
+    })),
+  ];
+
   return (
     <StyledProjects>
-      <ProjectsHero>
-        <RevealAnimation>
-          <Large>{projectsData.heroHeader}</Large>
-        </RevealAnimation>
-        <RevealAnimation delay={1}>
-          <Mini>{projectsData.heroPerex}</Mini>
-        </RevealAnimation>
-      </ProjectsHero>
-      <DividerHeader className="no-padding">
-        <ProjectDividerHeaderInner>
-          <RevealAnimation delay={0.5}>
-            <Mini className="uppercase">Filtry</Mini>
-          </RevealAnimation>
-          <ProjectFilters>
-            <RevealAnimation delay={1} style={{ width: "auto" }}>
-              <ProjectFilter
-                href={"/projekty"}
-                className={category ? "inactive" : ""}
-              >
-                <Mini>Vše</Mini>
-              </ProjectFilter>
-            </RevealAnimation>
-            {services.items.map(({ service_name, _slug }, i) => (
-              <RevealAnimation
-                delay={i * 0.5 + 1}
-                style={{ width: "auto" }}
-                key={_slug}
-              >
-                <ProjectFilter
-                  href={`/projekty/${_slug}`}
-                  className={category?.includes(_slug) ? "" : "inactive"}
-                >
-                  <Mini>{service_name}</Mini>
-                </ProjectFilter>
-              </RevealAnimation>
-            ))}
-          </ProjectFilters>
-        </ProjectDividerHeaderInner>
-      </DividerHeader>
+      <ProjectsHero
+        header={projectsData.heroHeader}
+        perex={projectsData.heroPerex}
+      />
+      <FilterBar label="Filtry" filters={filters} className="no-padding" />
       <ProjectsGrid projects={projects} totalCount={projects.total} />
       <ClientQuote
         quote={projectsData.quote.quote}
