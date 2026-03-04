@@ -1,4 +1,5 @@
 import { aboutData } from "../../app/about/(client)/aboutData";
+import { articlesData } from "../../app/articles/[[...category]]/(client)/articlesData";
 import { contactData } from "../../app/contact/(client)/contactData";
 import { projectsData } from "../../app/projects/[[...category]]/(client)/projectsData";
 import { servicesData } from "../../app/service/[slug]/servicesData";
@@ -13,6 +14,11 @@ export const navConfig = [
     name: "Projekty",
     slug: "/projekty",
     perex: projectsData.heroPerex,
+  },
+  {
+    name: articlesData.name,
+    slug: "/clanky",
+    perex: articlesData.heroPerex,
   },
   {
     name: "O nás",
