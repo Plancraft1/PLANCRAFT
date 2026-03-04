@@ -1,11 +1,19 @@
 import { unstable_cache } from "next/cache";
 import { getClient } from "./client";
+import { ARTICLES_QUERY } from "./queries/articles";
+import { ARTICLE_CATEGORIES_QUERY } from "./queries/articleCategories";
 import { HOMEPAGE_PROJECTS_QUERY } from "./queries/homepageProjects";
 import { PROJECTS_QUERY } from "./queries/projects";
 import { SERVICES_QUERY } from "./queries/services";
 import type {
+  Article,
+  ArticleCategory,
+  ArticleSortInput,
+  ArticleWhereInput,
   Project,
   Query,
+  QueryArticleCategoriesArgs,
+  QueryArticlesArgs,
   QueryProjectsArgs,
   QueryServicesArgs,
   ProjectWhereInput,
@@ -17,6 +25,8 @@ export const CACHE_TAGS = {
   projects: "projects",
   services: "services",
   homepage: "homepage",
+  articles: "articles",
+  articleCategories: "articleCategories",
 } as const;
 
 // =====================
@@ -185,4 +195,135 @@ async function fetchServices(
 
 export const getServices = unstable_cache(fetchServices, [], {
   tags: [CACHE_TAGS.services],
+});
+
+// =====================
+// Articles API
+// =====================
+
+export interface GetArticlesOptions {
+  limit?: number;
+  skip?: number;
+  where?: ArticleWhereInput;
+  sort?: ArticleSortInput;
+  coverImageFormat?: string;
+  coverImageCropPreset?: string;
+  coverImageWidth?: number;
+  coverImageHeight?: number;
+}
+
+export interface GetArticlesResult {
+  items: Article[];
+  total: number;
+}
+
+async function fetchArticles(
+  options: GetArticlesOptions = {}
+): Promise<GetArticlesResult> {
+  const client = getClient();
+
+  const { data } = await client.query<Query>({
+    query: ARTICLES_QUERY,
+    variables: {
+      limit: options.limit,
+      skip: options.skip,
+      where: options.where,
+      sort: options.sort,
+      coverImageFormat: options.coverImageFormat ?? "webp",
+      coverImageCropPreset: options.coverImageCropPreset ?? "gridcover",
+      coverImageWidth: options.coverImageWidth,
+      coverImageHeight: options.coverImageHeight,
+    } as QueryArticlesArgs,
+  });
+
+  return {
+    items: data.Articles?.items ?? [],
+    total: data.Articles?.total ?? 0,
+  };
+}
+
+export const getArticles = unstable_cache(fetchArticles, [], {
+  tags: [CACHE_TAGS.articles],
+});
+
+// =====================
+// Article by Slug API
+// =====================
+
+export async function getArticleBySlug(slug: string): Promise<Article | null> {
+  const { items } = await getArticles({
+    where: { _slug_any: [slug] },
+  });
+
+  return items[0] ?? null;
+}
+
+// =====================
+// Articles by Category API
+// =====================
+
+export interface GetArticlesByCategoryOptions {
+  categorySlug?: string | string[];
+  limit?: number;
+  skip?: number;
+  coverImageFormat?: string;
+  coverImageCropPreset?: string;
+}
+
+export async function getArticlesByCategory(
+  options: GetArticlesByCategoryOptions = {}
+): Promise<GetArticlesResult> {
+  const categoryFilter = options.categorySlug
+    ? Array.isArray(options.categorySlug)
+      ? options.categorySlug
+      : [options.categorySlug]
+    : [];
+
+  return getArticles({
+    limit: options.limit,
+    skip: options.skip,
+    where:
+      categoryFilter.length > 0
+        ? { article_category: { _slug_any: categoryFilter } }
+        : undefined,
+    coverImageFormat: options.coverImageFormat ?? "webp",
+    coverImageCropPreset: options.coverImageCropPreset ?? "gridcover",
+  });
+}
+
+// =====================
+// Article Categories API
+// =====================
+
+export interface GetArticleCategoriesOptions {
+  limit?: number | null;
+  locale?: string;
+}
+
+export interface GetArticleCategoriesResult {
+  items: ArticleCategory[];
+  total: number;
+}
+
+async function fetchArticleCategories(
+  options: GetArticleCategoriesOptions = {}
+): Promise<GetArticleCategoriesResult> {
+  const client = getClient();
+
+  const { data } = await client.query<Query>({
+    query: ARTICLE_CATEGORIES_QUERY,
+    variables: {
+      locale: options.locale ?? "cs-CZ",
+      limit: options.limit ?? null,
+    } as QueryArticleCategoriesArgs,
+  });
+
+  return {
+    items: data.ArticleCategories?.items ?? [],
+    total: data.ArticleCategories?.total ?? 0,
+  };
+}
+
+export const getArticleCategories = unstable_cache(fetchArticleCategories, [], {
+  tags: [CACHE_TAGS.articleCategories],
 });

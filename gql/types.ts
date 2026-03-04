@@ -35,6 +35,233 @@ export type ApplePodcast = {
   url: Scalars["String"]["output"];
 };
 
+/** Single Article. */
+export type Article = Model & {
+  __typename?: "Article";
+  /** Count of bookmark events. */
+  _bookmarks: Scalars["Int"]["output"];
+  /** The time the content item was changed. */
+  _changed_on: Scalars["String"]["output"];
+  _context?: Maybe<Context>;
+  /** The time the content item was created. */
+  _created_on: Scalars["String"]["output"];
+  /** Id of your Prepr Environment. */
+  _environment_id: Scalars["String"]["output"];
+  /** Count of view events. */
+  _event: Scalars["Int"]["output"];
+  /** Unique identifier for each content item. */
+  _id: Scalars["String"]["output"];
+  _last_published_on?: Maybe<Scalars["String"]["output"]>;
+  /** Count of like events. */
+  _likes: Scalars["Int"]["output"];
+  _locale: Scalars["String"]["output"];
+  _locales: Array<Scalars["String"]["output"]>;
+  /** This field returns all localizations for this content item. */
+  _localizations: Array<Article>;
+  /** The time for when the content item is or will be published. */
+  _publish_on?: Maybe<Scalars["String"]["output"]>;
+  /** Calculated time to read in minutes. */
+  _read_time?: Maybe<Scalars["Int"]["output"]>;
+  /** Unique within Type, string identifier for each content item. */
+  _slug?: Maybe<Scalars["String"]["output"]>;
+  /** Count of subscribe events. */
+  _subscribes: Scalars["Int"]["output"];
+  /** Count of view events. */
+  _views: Scalars["Int"]["output"];
+  article_category: Array<ArticleCategory>;
+  article_content?: Maybe<Array<Maybe<_Prepr_Types>>>;
+  article_cover?: Maybe<Asset>;
+  article_next_articles: Array<Article>;
+  article_title?: Maybe<Scalars["String"]["output"]>;
+};
+
+/** Single Article. */
+export type Article_EventArgs = {
+  name?: _Event;
+};
+
+/** List of ArticleCategories items. */
+export type ArticleCategories = {
+  __typename?: "ArticleCategories";
+  items: Array<ArticleCategory>;
+  total: Scalars["Int"]["output"];
+};
+
+/** Single ArticleCategory. */
+export type ArticleCategory = Model & {
+  __typename?: "ArticleCategory";
+  /** Count of bookmark events. */
+  _bookmarks: Scalars["Int"]["output"];
+  /** The time the content item was changed. */
+  _changed_on: Scalars["String"]["output"];
+  _context?: Maybe<Context>;
+  /** The time the content item was created. */
+  _created_on: Scalars["String"]["output"];
+  /** Id of your Prepr Environment. */
+  _environment_id: Scalars["String"]["output"];
+  /** Count of view events. */
+  _event: Scalars["Int"]["output"];
+  /** Unique identifier for each content item. */
+  _id: Scalars["String"]["output"];
+  _last_published_on?: Maybe<Scalars["String"]["output"]>;
+  /** Count of like events. */
+  _likes: Scalars["Int"]["output"];
+  _locale: Scalars["String"]["output"];
+  _locales: Array<Scalars["String"]["output"]>;
+  /** This field returns all localizations for this content item. */
+  _localizations: Array<ArticleCategory>;
+  /** The time for when the content item is or will be published. */
+  _publish_on?: Maybe<Scalars["String"]["output"]>;
+  /** Calculated time to read in minutes. */
+  _read_time?: Maybe<Scalars["Int"]["output"]>;
+  /** Unique within Type, string identifier for each content item. */
+  _slug?: Maybe<Scalars["String"]["output"]>;
+  /** Count of subscribe events. */
+  _subscribes: Scalars["Int"]["output"];
+  /** Count of view events. */
+  _views: Scalars["Int"]["output"];
+  article_category_name?: Maybe<Scalars["String"]["output"]>;
+};
+
+/** Single ArticleCategory. */
+export type ArticleCategory_EventArgs = {
+  name?: _Event;
+};
+
+export enum ArticleCategorySortInput {
+  ArticleCategoryNameAsc = "article_category_name_ASC",
+  ArticleCategoryNameDesc = "article_category_name_DESC",
+  ChangedOn = "changed_on",
+  ChangedOnAsc = "changed_on_ASC",
+  ChangedOnDesc = "changed_on_DESC",
+  CreatedOn = "created_on",
+  CreatedOnAsc = "created_on_ASC",
+  CreatedOnDesc = "created_on_DESC",
+  PublishOn = "publish_on",
+  PublishOnAsc = "publish_on_ASC",
+  PublishOnDesc = "publish_on_DESC",
+}
+
+export type ArticleCategoryWhereInput = {
+  _changed_on_gt?: InputMaybe<Scalars["_DateTime"]["input"]>;
+  _changed_on_gte?: InputMaybe<Scalars["_DateTime"]["input"]>;
+  _changed_on_lt?: InputMaybe<Scalars["_DateTime"]["input"]>;
+  _changed_on_lte?: InputMaybe<Scalars["_DateTime"]["input"]>;
+  _created_on_gt?: InputMaybe<Scalars["_DateTime"]["input"]>;
+  _created_on_gte?: InputMaybe<Scalars["_DateTime"]["input"]>;
+  _created_on_lt?: InputMaybe<Scalars["_DateTime"]["input"]>;
+  _created_on_lte?: InputMaybe<Scalars["_DateTime"]["input"]>;
+  /** Matches if the Id field is equal to one of the items in the given list. */
+  _id_any?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
+  /** Matches if the Id field is not equal to one of the items in the given list. */
+  _id_nany?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
+  /** The `_or` filter returns a filter value if at least one of the clause in the _or is true. This beta filter currently supports the Id, Slug, Created On, Changed On, Published On, Text, Integer, Float, Boolean, and DateTime field types, for references only Text, Integer, Float, Boolean and exists (at least one item) fields are supported. */
+  _or?: InputMaybe<Array<ArticleCategoryWhereInput>>;
+  _publish_on_gt?: InputMaybe<Scalars["_DateTime"]["input"]>;
+  _publish_on_gte?: InputMaybe<Scalars["_DateTime"]["input"]>;
+  _publish_on_lt?: InputMaybe<Scalars["_DateTime"]["input"]>;
+  _publish_on_lte?: InputMaybe<Scalars["_DateTime"]["input"]>;
+  /** Matches any content item containing the given text term (full-text search). */
+  _search?: InputMaybe<Scalars["String"]["input"]>;
+  _search_options?: InputMaybe<SearchOptionsInput>;
+  _slug_any?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
+  _slug_nany?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
+  /** Matches any content item tagged with all items from the given list. */
+  _tags_all?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
+  /** Matches any content item tagged with at least one item from the given list. */
+  _tags_any?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
+  /** Matches any content item that is tagged. */
+  _tags_has?: InputMaybe<Scalars["Boolean"]["input"]>;
+  /** Matches any content item not tagged with an item from the given list. */
+  _tags_nany?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
+  /** Matches if the field is equal to the given value. */
+  article_category_name?: InputMaybe<Scalars["String"]["input"]>;
+  /** Matches if the field matches any of the given values. */
+  article_category_name_any?: InputMaybe<
+    Array<InputMaybe<Scalars["String"]["input"]>>
+  >;
+  /** Full fuzzy text search, not case sensitive. */
+  article_category_name_contains?: InputMaybe<Scalars["String"]["input"]>;
+  /** Matches if the field ends with the given value. */
+  article_category_name_ends_with?: InputMaybe<Scalars["String"]["input"]>;
+  /** Excludes with full fuzzy text search, not case sensitive. */
+  article_category_name_not_contains?: InputMaybe<Scalars["String"]["input"]>;
+  /** Matches if the field starts with the given value. */
+  article_category_name_starts_with?: InputMaybe<Scalars["String"]["input"]>;
+};
+
+export enum ArticleSortInput {
+  ArticleTitleAsc = "article_title_ASC",
+  ArticleTitleDesc = "article_title_DESC",
+  ChangedOn = "changed_on",
+  ChangedOnAsc = "changed_on_ASC",
+  ChangedOnDesc = "changed_on_DESC",
+  CreatedOn = "created_on",
+  CreatedOnAsc = "created_on_ASC",
+  CreatedOnDesc = "created_on_DESC",
+  PublishOn = "publish_on",
+  PublishOnAsc = "publish_on_ASC",
+  PublishOnDesc = "publish_on_DESC",
+}
+
+export type ArticleWhereInput = {
+  _changed_on_gt?: InputMaybe<Scalars["_DateTime"]["input"]>;
+  _changed_on_gte?: InputMaybe<Scalars["_DateTime"]["input"]>;
+  _changed_on_lt?: InputMaybe<Scalars["_DateTime"]["input"]>;
+  _changed_on_lte?: InputMaybe<Scalars["_DateTime"]["input"]>;
+  _created_on_gt?: InputMaybe<Scalars["_DateTime"]["input"]>;
+  _created_on_gte?: InputMaybe<Scalars["_DateTime"]["input"]>;
+  _created_on_lt?: InputMaybe<Scalars["_DateTime"]["input"]>;
+  _created_on_lte?: InputMaybe<Scalars["_DateTime"]["input"]>;
+  /** Matches if the Id field is equal to one of the items in the given list. */
+  _id_any?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
+  /** Matches if the Id field is not equal to one of the items in the given list. */
+  _id_nany?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
+  /** The `_or` filter returns a filter value if at least one of the clause in the _or is true. This beta filter currently supports the Id, Slug, Created On, Changed On, Published On, Text, Integer, Float, Boolean, and DateTime field types, for references only Text, Integer, Float, Boolean and exists (at least one item) fields are supported. */
+  _or?: InputMaybe<Array<ArticleWhereInput>>;
+  _publish_on_gt?: InputMaybe<Scalars["_DateTime"]["input"]>;
+  _publish_on_gte?: InputMaybe<Scalars["_DateTime"]["input"]>;
+  _publish_on_lt?: InputMaybe<Scalars["_DateTime"]["input"]>;
+  _publish_on_lte?: InputMaybe<Scalars["_DateTime"]["input"]>;
+  /** Matches any content item containing the given text term (full-text search). */
+  _search?: InputMaybe<Scalars["String"]["input"]>;
+  _search_options?: InputMaybe<SearchOptionsInput>;
+  _slug_any?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
+  _slug_nany?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
+  /** Matches any content item tagged with all items from the given list. */
+  _tags_all?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
+  /** Matches any content item tagged with at least one item from the given list. */
+  _tags_any?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
+  /** Matches any content item that is tagged. */
+  _tags_has?: InputMaybe<Scalars["Boolean"]["input"]>;
+  /** Matches any content item not tagged with an item from the given list. */
+  _tags_nany?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
+  /** Match on ArticleCategory fields. */
+  article_category?: InputMaybe<ArticleCategoryWhereInput>;
+  article_cover?: InputMaybe<AssetsWhereInput>;
+  /** Match on Article fields. */
+  article_next_articles?: InputMaybe<ArticleWhereInput>;
+  /** Matches if the field is equal to the given value. */
+  article_title?: InputMaybe<Scalars["String"]["input"]>;
+  /** Matches if the field matches any of the given values. */
+  article_title_any?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
+  /** Full fuzzy text search, not case sensitive. */
+  article_title_contains?: InputMaybe<Scalars["String"]["input"]>;
+  /** Matches if the field ends with the given value. */
+  article_title_ends_with?: InputMaybe<Scalars["String"]["input"]>;
+  /** Excludes with full fuzzy text search, not case sensitive. */
+  article_title_not_contains?: InputMaybe<Scalars["String"]["input"]>;
+  /** Matches if the field starts with the given value. */
+  article_title_starts_with?: InputMaybe<Scalars["String"]["input"]>;
+};
+
+/** List of Articles items. */
+export type Articles = {
+  __typename?: "Articles";
+  items: Array<Article>;
+  total: Scalars["Int"]["output"];
+};
+
 /** Prepr Asset system model */
 export type Asset = {
   __typename?: "Asset";
@@ -511,14 +738,30 @@ export type Projects = {
 
 export type Query = {
   __typename?: "Query";
+  /** Retrieve a single Article. */
+  Article?: Maybe<Article>;
+  /** Retrieve multiple ArticleCategories. */
+  ArticleCategories?: Maybe<ArticleCategories>;
+  /** Retrieve a single ArticleCategory. */
+  ArticleCategory?: Maybe<ArticleCategory>;
+  /** Retrieve multiple Articles. */
+  Articles?: Maybe<Articles>;
   /** Retrieve items from different model types at once. */
   ContentItems?: Maybe<ContentItems>;
   /** Retrieve HomepageProjects. */
   HomepageProjects?: Maybe<HomepageProjects>;
+  /** Recommendation recipe suitable for recommending ArticleCategories which are similar to the giving item */
+  PeopleAlsoViewed_ArticleCategories?: Maybe<ArticleCategories>;
+  /** Recommendation recipe suitable for recommending Articles which are similar to the giving item */
+  PeopleAlsoViewed_Articles?: Maybe<Articles>;
   /** Recommendation recipe suitable for recommending Projects which are similar to the giving item */
   PeopleAlsoViewed_Projects?: Maybe<Projects>;
   /** Recommendation recipe suitable for recommending Services which are similar to the giving item */
   PeopleAlsoViewed_Services?: Maybe<Services>;
+  /** Recommendation recipe suitable for recommending globally popular ArticleCategories */
+  Popular_ArticleCategories?: Maybe<ArticleCategories>;
+  /** Recommendation recipe suitable for recommending globally popular Articles */
+  Popular_Articles?: Maybe<Articles>;
   /** Recommendation recipe suitable for recommending globally popular Projects */
   Popular_Projects?: Maybe<Projects>;
   /** Recommendation recipe suitable for recommending globally popular Services */
@@ -531,6 +774,10 @@ export type Query = {
   Service?: Maybe<Service>;
   /** Retrieve multiple Services. */
   Services?: Maybe<Services>;
+  /** Recommendation recipe suitable for recommending ArticleCategories which are similar to the giving item */
+  Similar_ArticleCategories?: Maybe<ArticleCategories>;
+  /** Recommendation recipe suitable for recommending Articles which are similar to the giving item */
+  Similar_Articles?: Maybe<Articles>;
   /** Recommendation recipe suitable for recommending Projects which are similar to the giving item */
   Similar_Projects?: Maybe<Projects>;
   /** Recommendation recipe suitable for recommending Services which are similar to the giving item */
@@ -539,6 +786,38 @@ export type Query = {
   _DefaultLocale: Scalars["Locale"]["output"];
   /** Retrieve the list of available locales. */
   _Locales?: Maybe<Array<Scalars["Locale"]["output"]>>;
+};
+
+export type QueryArticleArgs = {
+  id?: InputMaybe<Scalars["String"]["input"]>;
+  locale?: Scalars["String"]["input"];
+  locales?: InputMaybe<Array<Scalars["String"]["input"]>>;
+  slug?: InputMaybe<Scalars["String"]["input"]>;
+};
+
+export type QueryArticleCategoriesArgs = {
+  limit?: InputMaybe<Scalars["Int"]["input"]>;
+  locale?: Scalars["String"]["input"];
+  locales?: InputMaybe<Array<Scalars["String"]["input"]>>;
+  skip?: InputMaybe<Scalars["Int"]["input"]>;
+  sort?: InputMaybe<ArticleCategorySortInput>;
+  where?: InputMaybe<ArticleCategoryWhereInput>;
+};
+
+export type QueryArticleCategoryArgs = {
+  id?: InputMaybe<Scalars["String"]["input"]>;
+  locale?: Scalars["String"]["input"];
+  locales?: InputMaybe<Array<Scalars["String"]["input"]>>;
+  slug?: InputMaybe<Scalars["String"]["input"]>;
+};
+
+export type QueryArticlesArgs = {
+  limit?: InputMaybe<Scalars["Int"]["input"]>;
+  locale?: Scalars["String"]["input"];
+  locales?: InputMaybe<Array<Scalars["String"]["input"]>>;
+  skip?: InputMaybe<Scalars["Int"]["input"]>;
+  sort?: InputMaybe<ArticleSortInput>;
+  where?: InputMaybe<ArticleWhereInput>;
 };
 
 export type QueryContentItemsArgs = {
@@ -553,6 +832,26 @@ export type QueryContentItemsArgs = {
 export type QueryHomepageProjectsArgs = {
   locale?: InputMaybe<Scalars["String"]["input"]>;
   locales?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
+};
+
+export type QueryPeopleAlsoViewed_ArticleCategoriesArgs = {
+  id: Scalars["String"]["input"];
+  limit?: InputMaybe<Scalars["Int"]["input"]>;
+  locale?: InputMaybe<Scalars["String"]["input"]>;
+  locales?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
+  rules?: InputMaybe<SimilarRulesInput>;
+  skip?: InputMaybe<Scalars["Int"]["input"]>;
+  where?: InputMaybe<ArticleCategoryWhereInput>;
+};
+
+export type QueryPeopleAlsoViewed_ArticlesArgs = {
+  id: Scalars["String"]["input"];
+  limit?: InputMaybe<Scalars["Int"]["input"]>;
+  locale?: InputMaybe<Scalars["String"]["input"]>;
+  locales?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
+  rules?: InputMaybe<SimilarRulesInput>;
+  skip?: InputMaybe<Scalars["Int"]["input"]>;
+  where?: InputMaybe<ArticleWhereInput>;
 };
 
 export type QueryPeopleAlsoViewed_ProjectsArgs = {
@@ -573,6 +872,24 @@ export type QueryPeopleAlsoViewed_ServicesArgs = {
   rules?: InputMaybe<SimilarRulesInput>;
   skip?: InputMaybe<Scalars["Int"]["input"]>;
   where?: InputMaybe<ServiceWhereInput>;
+};
+
+export type QueryPopular_ArticleCategoriesArgs = {
+  events?: InputMaybe<Array<InputMaybe<_Event>>>;
+  limit?: InputMaybe<Scalars["Int"]["input"]>;
+  locale?: InputMaybe<Scalars["String"]["input"]>;
+  locales?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
+  skip?: InputMaybe<Scalars["Int"]["input"]>;
+  where?: InputMaybe<ArticleCategoryWhereInput>;
+};
+
+export type QueryPopular_ArticlesArgs = {
+  events?: InputMaybe<Array<InputMaybe<_Event>>>;
+  limit?: InputMaybe<Scalars["Int"]["input"]>;
+  locale?: InputMaybe<Scalars["String"]["input"]>;
+  locales?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
+  skip?: InputMaybe<Scalars["Int"]["input"]>;
+  where?: InputMaybe<ArticleWhereInput>;
 };
 
 export type QueryPopular_ProjectsArgs = {
@@ -623,6 +940,26 @@ export type QueryServicesArgs = {
   skip?: InputMaybe<Scalars["Int"]["input"]>;
   sort?: InputMaybe<ServiceSortInput>;
   where?: InputMaybe<ServiceWhereInput>;
+};
+
+export type QuerySimilar_ArticleCategoriesArgs = {
+  id: Scalars["String"]["input"];
+  limit?: InputMaybe<Scalars["Int"]["input"]>;
+  locale?: InputMaybe<Scalars["String"]["input"]>;
+  locales?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
+  rules?: InputMaybe<SimilarRulesInput>;
+  skip?: InputMaybe<Scalars["Int"]["input"]>;
+  where?: InputMaybe<ArticleCategoryWhereInput>;
+};
+
+export type QuerySimilar_ArticlesArgs = {
+  id: Scalars["String"]["input"];
+  limit?: InputMaybe<Scalars["Int"]["input"]>;
+  locale?: InputMaybe<Scalars["String"]["input"]>;
+  locales?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
+  rules?: InputMaybe<SimilarRulesInput>;
+  skip?: InputMaybe<Scalars["Int"]["input"]>;
+  where?: InputMaybe<ArticleWhereInput>;
 };
 
 export type QuerySimilar_ProjectsArgs = {
