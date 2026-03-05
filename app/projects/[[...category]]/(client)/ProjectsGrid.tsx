@@ -9,6 +9,7 @@ import Divider from "../../../../components/Divider/Divider";
 import GridCard from "../../../../components/GridCard/GridCard";
 import RevealAnimation from "../../../../components/TextAnimation/RevealAnimation";
 import { loadMoreProjectsAction } from "./actions";
+import { PROJECTS_PER_PAGE } from "../../../../consts/pagination";
 import { LoadMoreW, GridCardW, StyledProjectsGrid } from "./StyledProjectsGrid";
 
 interface ProjectsGridProps {
@@ -16,20 +17,18 @@ interface ProjectsGridProps {
   totalCount: number;
 }
 
-export const projectsPerPage = 6;
-
 const ProjectsGrid = ({
   projects: initialProjects,
   totalCount,
 }: ProjectsGridProps) => {
   const [projects, setProjects] = useState<Project[]>(initialProjects.items);
-  const [skip, setSkip] = useState<number>(projectsPerPage);
+  const [skip, setSkip] = useState<number>(PROJECTS_PER_PAGE);
   const query = useParams<{ category: string[] }>();
 
   const { execute, isPending } = useAction(loadMoreProjectsAction, {
     onSuccess: ({ data }) => {
       if (data) {
-        setSkip((p) => p + projectsPerPage);
+        setSkip((p) => p + PROJECTS_PER_PAGE);
         setProjects((p) => [...p, ...data.items]);
       }
     },
@@ -38,7 +37,7 @@ const ProjectsGrid = ({
   const handleLoadMore = () => {
     execute({
       skip,
-      limit: projectsPerPage,
+      limit: PROJECTS_PER_PAGE,
       category: query.category,
     });
   };

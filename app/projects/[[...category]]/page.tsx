@@ -8,6 +8,7 @@ import ProjectsGrid from "./(client)/ProjectsGrid";
 import { StyledProjects } from "./(client)/StyledProjects";
 import { projectsData } from "./(client)/projectsData";
 import { notFound } from "next/navigation";
+import { PROJECTS_PER_PAGE } from "../../../consts/pagination";
 
 export async function generateStaticParams() {
   const { items } = await getServices();
@@ -38,7 +39,7 @@ const page = async ({ params }: PageProps) => {
   const [projects, services] = await Promise.all([
     getProjectsByCategory({
       categorySlug: category,
-      limit: 6,
+      limit: PROJECTS_PER_PAGE,
     }),
     getServices(),
   ]);

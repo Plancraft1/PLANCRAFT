@@ -1,9 +1,8 @@
 import { getArticlesByCategory, getArticleCategories } from "../../../lib/cms";
 import FilterBar, { FilterItem } from "../../../components/FilterBar/FilterBar";
 import ProjectsHero from "../../../components/ProjectsHero/ProjectsHero";
-import ArticlesGrid, {
-  articlesPerPage,
-} from "../../../components/ArticlesGrid/ArticlesGrid";
+import ArticlesGrid from "../../../components/ArticlesGrid/ArticlesGrid";
+import { ARTICLES_PER_PAGE } from "../../../consts/pagination";
 import { StyledArticles } from "./(client)/StyledArticles";
 import { articlesData } from "./(client)/articlesData";
 import { notFound } from "next/navigation";
@@ -33,7 +32,7 @@ const page = async ({ params }: PageProps) => {
   const [articles, categories] = await Promise.all([
     getArticlesByCategory({
       categorySlug: category,
-      limit: articlesPerPage,
+      limit: ARTICLES_PER_PAGE,
     }),
     getArticleCategories(),
   ]);

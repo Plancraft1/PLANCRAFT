@@ -10,6 +10,7 @@ import GridCard from "../GridCard/GridCard";
 import RevealAnimation from "../TextAnimation/RevealAnimation";
 import { formatDate } from "../../helpers/formatDate";
 import { loadMoreArticlesAction } from "../../app/articles/[[...category]]/(client)/actions";
+import { ARTICLES_PER_PAGE } from "../../consts/pagination";
 import { GridCardW, LoadMoreW, StyledArticlesGrid } from "./StyledArticlesGrid";
 
 interface ArticlesGridProps {
@@ -17,20 +18,18 @@ interface ArticlesGridProps {
   totalCount: number;
 }
 
-export const articlesPerPage = 6;
-
 const ArticlesGrid = ({
   articles: initialArticles,
   totalCount,
 }: ArticlesGridProps) => {
   const [articles, setArticles] = useState<Article[]>(initialArticles.items);
-  const [skip, setSkip] = useState<number>(articlesPerPage);
+  const [skip, setSkip] = useState<number>(ARTICLES_PER_PAGE);
   const query = useParams<{ category: string[] }>();
 
   const { execute, isPending } = useAction(loadMoreArticlesAction, {
     onSuccess: ({ data }) => {
       if (data) {
-        setSkip((p) => p + articlesPerPage);
+        setSkip((p) => p + ARTICLES_PER_PAGE);
         setArticles((p) => [...p, ...data.items]);
       }
     },
@@ -39,7 +38,7 @@ const ArticlesGrid = ({
   const handleLoadMore = () => {
     execute({
       skip,
-      limit: articlesPerPage,
+      limit: ARTICLES_PER_PAGE,
       category: query.category,
     });
   };
