@@ -10,6 +10,7 @@ export const StyledFilterBarInner = styled.div`
   display: grid;
   grid-template-columns: calc(10 * var(--gap-size)) 1fr;
   column-gap: calc(1 * var(--gap-size));
+  align-items: center;
   ${breakpoint.monitor} {
     grid-template-columns: calc(10 * var(--gap-size)) 1fr;
     column-gap: calc(1 * var(--gap-size));
@@ -22,7 +23,7 @@ export const StyledFilterBarInner = styled.div`
   }
   ${breakpoint.phone} {
     grid-template-columns: unset;
-    row-gap: calc(1 * var(--gap-size));
+    row-gap: calc(0.5 * var(--gap-size));
   }
 `;
 
@@ -30,6 +31,7 @@ export const StyledFilterItems = styled.div`
   display: flex;
   row-gap: ${spaces.xxs}px;
   column-gap: calc(1 * var(--gap-size));
+  padding: 8px 0;
   ${breakpoint.monitor} {
     column-gap: calc(1 * var(--gap-size));
   }
@@ -38,6 +40,8 @@ export const StyledFilterItems = styled.div`
   }
   ${breakpoint.tabletLandscape} {
     flex-wrap: wrap;
+  }
+  ${breakpoint.phone} {
   }
 `;
 

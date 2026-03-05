@@ -22,22 +22,13 @@ export const StyledDividerHeaderInner = styled.div`
   align-items: center;
   padding-left: calc(1 * var(--gap-size));
   padding-right: calc(1 * var(--gap-size));
-  height: calc(2 * var(--gap-size));
   padding-top: 0;
   ${StyledProjects} & {
     ${breakpoint.tabletLandscape} {
-      height: auto;
       padding-bottom: ${spaces.xs}px;
     }
-    ${breakpoint.tabletPortrait} {
-      min-height: auto;
-    }
-  }
-  ${breakpoint.tabletPortrait} {
-    min-height: calc(2 * var(--gap-size));
   }
   ${breakpoint.phone} {
-    min-height: calc(2 * var(--gap-size));
     padding: 0;
   }
 `;

@@ -2,6 +2,7 @@
 
 import styled from "styled-components";
 import { breakpoint } from "../../consts/breakpoints";
+import { Large } from "../Typography/Large";
 
 export const StyledProjectsHero = styled.div`
   display: grid;
@@ -27,5 +28,19 @@ export const StyledProjectsHero = styled.div`
   }
   ${breakpoint.phone} {
     padding: 0;
+    row-gap: calc(1 * var(--gap-size));
+    margin-bottom: calc(3 * var(--gap-size));
+  }
+`;
+
+export const ProjectsHeroHeader = styled(Large)`
+  ${breakpoint.monitor} {
+    font-size: 70px;
+  }
+  ${breakpoint.tabletLandscape} {
+    font-size: 36px;
+  }
+  ${breakpoint.tabletLandscape} {
+    font-size: 28px;
   }
 `;
