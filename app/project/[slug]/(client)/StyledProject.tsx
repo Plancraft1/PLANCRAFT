@@ -30,13 +30,3 @@ export const ProjectCover = styled(Image)`
   height: auto;
   object-fit: cover;
 `;
-
-export const ProjectNavigation = styled.div`
-  margin: 0 calc(-1 * var(--gap-size));
-`;
-
-export const ProjectNavigationInner = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-`;

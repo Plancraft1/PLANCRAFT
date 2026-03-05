@@ -107,13 +107,26 @@ export const ArticleBlock = styled.div`
     }
   }
 
-  ul,
-  ol {
+  ul {
     font-size: 18px;
-    padding-left: ${spaces.l}px;
+    padding-left: 2em;
+    list-style: none;
     ${breakpoint.phone} {
       font-size: 14px;
-      padding-left: ${spaces.m}px;
+    }
+
+    li::before {
+      content: "—";
+      position: absolute;
+      margin-left: -2em;
+    }
+  }
+
+  ol {
+    font-size: 18px;
+    padding-left: 1.3em;
+    ${breakpoint.phone} {
+      font-size: 14px;
     }
   }
 

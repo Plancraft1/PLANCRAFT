@@ -2,17 +2,10 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getProjectBySlug, getProjects } from "../../../lib/cms";
 import ClientQuote from "../../../components/ClientQuote/ClientQuote";
-import DividerHeader from "../../../components/Divider/DividerHeader";
-import Link from "../../../components/Link/Link";
-import { Mini } from "../../../components/Typography/Mini";
+import DetailNavigation from "../../../components/DetailNavigation/DetailNavigation";
 import ProjectContent from "./(client)/ProjectContent";
 import ProjectElevator from "./(client)/ProjectElevator";
-import {
-  ProjectDetail,
-  ProjectNavigation,
-  ProjectNavigationInner,
-  StyledProject,
-} from "./(client)/StyledProject";
+import { ProjectDetail, StyledProject } from "./(client)/StyledProject";
 
 export async function generateStaticParams() {
   const { items } = await getProjects();
@@ -60,22 +53,12 @@ const page = async ({ params }: PageProps) => {
         <ProjectContent project={project} />
         <ProjectElevator project={project} />
       </ProjectDetail>
-      <ProjectNavigation>
-        <DividerHeader className="flip">
-          <ProjectNavigationInner>
-            <Mini>
-              <Link className="flip" href={"/projects"}>
-                {"Zpět na projekty"}
-              </Link>
-            </Mini>
-            <Mini>
-              <Link href={`/project/${project.next_project[0]._slug}`}>
-                {`Další projekt: ${project.next_project[0].project_name}`}
-              </Link>
-            </Mini>
-          </ProjectNavigationInner>
-        </DividerHeader>
-      </ProjectNavigation>
+      <DetailNavigation
+        backHref="/projects"
+        backLabel="Zpět na projekty"
+        nextHref={`/project/${project.next_project[0]._slug}`}
+        nextLabel={`Další projekt: ${project.next_project[0].project_name}`}
+      />
       {project.project_client_quote_name && project.project_client_quote && (
         <ClientQuote
           client={project.project_client_quote_name}

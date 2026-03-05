@@ -13,6 +13,7 @@ import {
 } from "./(client)/StyledArticle";
 import { formatDate } from "../../../helpers/formatDate";
 import RevealAnimation from "../../../components/TextAnimation/RevealAnimation";
+import DetailNavigation from "../../../components/DetailNavigation/DetailNavigation";
 
 export async function generateStaticParams() {
   const { items } = await getArticles();
@@ -134,6 +135,20 @@ const page = async ({ params }: PageProps) => {
       {article.article_content?.map(
         (block, index) => block && renderBlock(block, index)
       )}
+      <DetailNavigation
+        backHref="/articles"
+        backLabel="Zpět na články"
+        nextHref={
+          article.article_next_articles?.[0]
+            ? `/article/${article.article_next_articles[0]._slug}`
+            : undefined
+        }
+        nextLabel={
+          article.article_next_articles?.[0]
+            ? `Další článek: ${article.article_next_articles[0].article_title}`
+            : undefined
+        }
+      />
     </StyledArticle>
   );
 };
