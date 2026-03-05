@@ -29,6 +29,7 @@
     "@types/styled-components": "^5.1.27",
     "framer-motion": "^11",
     "graphql": "^16.8.1",
+    "html-react-parser": "^5.2.17",
     "next": "^15",
     "next-safe-action": "^8.1.4",
     "react": "^19",

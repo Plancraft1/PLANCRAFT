@@ -27,6 +27,10 @@ const nextConfig = {
         destination: "/articles/:path*",
       },
       {
+        source: "/clanek/:path*",
+        destination: "/article/:path*",
+      },
+      {
         source: "/o-nas",
         destination: "/about",
       },

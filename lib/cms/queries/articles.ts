@@ -34,21 +34,40 @@ export const ARTICLES_QUERY = gql`
         }
         article_content {
           ... on Text {
+            __typename
             body
             html
             text
             _id
             format
           }
+          ... on Assets {
+            __typename
+            _type
+            items {
+              _id
+              url
+              width
+              height
+              description
+            }
+          }
           ... on ImagesRow {
             __typename
             _id
             image {
+              _id
               width
               height
               url
               description
             }
+          }
+          ... on TableRow {
+            __typename
+            _id
+            table_header
+            table_body
           }
         }
         article_category {
