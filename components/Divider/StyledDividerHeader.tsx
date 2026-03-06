@@ -27,6 +27,6 @@ export const StyledDividerHeaderInner = styled.div`
     }
   }
   ${breakpoint.phone} {
-    padding: 0;
+    padding: 12px 0;
   }
 `;

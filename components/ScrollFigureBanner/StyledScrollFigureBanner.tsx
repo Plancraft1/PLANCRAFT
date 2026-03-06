@@ -6,8 +6,7 @@ import { breakpoint } from "../../consts/breakpoints";
 
 export const StyledScrollFigureBanner = styled.div`
   display: grid;
-  grid-template-columns: ${({ theme }) =>
-      0.55 * theme.columnCount * theme.gapSize}px auto;
+  grid-template-columns: calc(0.55 * var(--column-count) * var(--gap-size)) auto;
   column-gap: calc(2 * var(--gap-size));
   align-items: center;
   height: 100%;

@@ -1,10 +1,11 @@
 "use client";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import styled from "styled-components";
 import { breakpoint } from "../../consts/breakpoints";
 
-export const StyledProjectCardSmall = styled(Link)`
+export const StyledCardSmall = styled(Link)`
   all: unset;
   cursor: pointer;
   width: 100%;
@@ -12,14 +13,25 @@ export const StyledProjectCardSmall = styled(Link)`
   row-gap: calc(0.5 * var(--gap-size));
 `;
 
-export const ProjectCardSmallCover = styled(Image)`
+export const CardSmallImageMask = styled.div`
+  overflow: hidden;
+  aspect-ratio: 1;
+`;
+
+export const CardSmallImageAnimation = styled(motion.div)`
+  transform-origin: 50% 50%;
+  width: 100%;
+  height: 100%;
+`;
+
+export const CardSmallCover = styled(Image)`
   width: 100%;
   height: 100%;
   aspect-ratio: 1;
   object-fit: contain;
 `;
 
-export const ProjectsCardsSmallWrapper = styled.div`
+export const CardsSmallWrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   column-gap: calc(1 * var(--gap-size));

@@ -4,12 +4,13 @@ import ClientQuote from "../../../components/ClientQuote/ClientQuote";
 import DividerHeader from "../../../components/Divider/DividerHeader";
 import NumberedList from "../../../components/NumberedList/NumberedList";
 import PageIntro from "../../../components/PageIntro/PageIntro";
-import ProjectCardSmall from "../../../components/ProjectCardSmall/ProjectCardSmall";
-import { ProjectsCardsSmallWrapper } from "../../../components/ProjectCardSmall/StyledProjectCardSmall";
+import CardSmall from "../../../components/CardSmall/CardSmall";
+import { CardsSmallWrapper } from "../../../components/CardSmall/StyledCardSmall";
 import Services from "../../../components/Services/Services";
 import RevealAnimation from "../../../components/TextAnimation/RevealAnimation";
 import { Mini } from "../../../components/Typography/Mini";
 import { Small } from "../../../components/Typography/Small";
+import RelatedArticles from "../../../components/RelatedArticles/RelatedArticles";
 import {
   ServiceAdvantages,
   ServiceNumberedList,
@@ -104,13 +105,13 @@ const page = async ({ params }: PageProps) => {
           <DividerHeader>
             <Mini className="uppercase">Související projekty</Mini>
           </DividerHeader>
-          <ProjectsCardsSmallWrapper>
+          <CardsSmallWrapper>
             {Projects.items.map(({ project_name, _slug, project_cover }, i) => (
-              <ProjectCardSmall
+              <CardSmall
                 key={i}
                 delay={i * 0.5}
-                projectName={project_name}
-                slug={_slug}
+                title={project_name}
+                href={`/projekt/${_slug}`}
                 image={{
                   src: project_cover.url,
                   width: project_cover.width,
@@ -119,9 +120,10 @@ const page = async ({ params }: PageProps) => {
                 }}
               />
             ))}
-          </ProjectsCardsSmallWrapper>
+          </CardsSmallWrapper>
         </SimilarProjects>
       )}
+      <RelatedArticles category={slug} />
       <ClientQuote client={data.quote.client} quote={data.quote.quote} />
     </StyledService>
   );
