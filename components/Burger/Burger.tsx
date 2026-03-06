@@ -53,7 +53,6 @@ const Burger = ({
         }}
         stroke={strokeColor}
         strokeWidth={strokeWidth}
-        vectorEffect={"non-scaling-stroke"}
       />
       <motion.path
         d={`M 0 ${svgHeight / 2} H ${svgWidth}`}
@@ -65,7 +64,6 @@ const Burger = ({
         }}
         stroke={strokeColor}
         strokeWidth={strokeWidth}
-        vectorEffect={"non-scaling-stroke"}
       />
       <motion.path
         d={`M 0 ${svgHeight - strokeWidth / 2} L ${svgWidth} ${
@@ -83,7 +81,6 @@ const Burger = ({
         }}
         stroke={strokeColor}
         strokeWidth={strokeWidth}
-        vectorEffect={"non-scaling-stroke"}
       />
     </StyledBurger>
   );
