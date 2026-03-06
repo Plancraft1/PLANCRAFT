@@ -8,7 +8,11 @@ import {
   StyledNavlinks,
 } from "./StyledNavlinks";
 
-export default function Navlinks() {
+interface NavlinksProps {
+  onClose: () => void;
+}
+
+export default function Navlinks({ onClose }: NavlinksProps) {
   const [hoveredId, setHoveredId] = useState<string>(navConfig[0].id);
   const currNavItem = navConfig.find((p) => p.id === hoveredId);
 
@@ -20,6 +24,7 @@ export default function Navlinks() {
             <Navlink
               key={p.slug}
               href={`${p.slug}`}
+              onClick={onClose}
               onMouseEnter={() => setHoveredId(p.id)}
             >
               {p.name}

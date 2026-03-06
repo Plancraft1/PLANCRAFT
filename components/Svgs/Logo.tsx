@@ -6,11 +6,12 @@ import { ColorKeys, colors } from "../../consts/colors";
 
 interface LogoProps {
   fill?: ColorKeys;
+  onClick?: () => void;
 }
 
-const Logo = ({ fill }: LogoProps) => {
+const Logo = ({ fill, onClick }: LogoProps) => {
   return (
-    <LogoLink href={"/"}>
+    <LogoLink href={"/"} onClick={onClick}>
       <StyledLogo
         width="321"
         height="43"

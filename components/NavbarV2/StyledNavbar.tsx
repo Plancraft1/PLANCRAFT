@@ -1,6 +1,7 @@
 "use client";
 
 import styled from "styled-components";
+import { easing } from "../../consts/animationConfig";
 import { colors } from "../../consts/colors";
 
 export const StyledNavbar = styled.nav`
@@ -55,15 +56,8 @@ export const NavbarContainer = styled.div`
   right: 0;
   top: 0;
   z-index: 999;
-
-  // &.opened {
-  //   background-color: ${colors.primary400};
-  //   color: ${colors.white};
-  //   bottom: 0;
-  //   display: flex;
-  //   flex-direction: column;
-  //   justify-content: space-between;
-  // }
+  transform: translateY(0);
+  transition: transform 0.3s cubic-bezier(${easing.join(", ")});
 
   &.hidden {
     transform: translateY(-100%);

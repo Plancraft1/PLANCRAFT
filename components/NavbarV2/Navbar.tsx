@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { createPortal } from "react-dom";
 import Burger from "../Burger/Burger";
 import Logo from "../Svgs/Logo";
 import {
@@ -26,7 +27,7 @@ interface NavbarProps {
 function NavbarInner({ onClick, isOpen }: NavbarProps) {
   return (
     <StyledNavbar>
-      <Logo />
+      <Logo onClick={isOpen ? onClick : undefined} />
       <BurgerWrapper onClick={onClick}>
         <Burger isOpen={isOpen} strokeWidth={3} />
       </BurgerWrapper>
@@ -78,7 +79,7 @@ export default function NavbarController() {
     [pathname]
   );
 
-  const hasScrolled = scrollPos > 100;
+  const hasScrolled = scrollPos > 200;
   const hideNavbar = directionDown || hideNavbarInSection;
 
   return (
@@ -90,7 +91,11 @@ export default function NavbarController() {
         isOpen={isOpen}
         onClick={() => setIsOpen((p) => !p)}
       />
-      {isOpen && <Navlinks />}
+      {isOpen &&
+        createPortal(
+          <Navlinks onClose={() => setIsOpen(false)} />,
+          document.body
+        )}
     </NavbarContainer>
   );
 }
