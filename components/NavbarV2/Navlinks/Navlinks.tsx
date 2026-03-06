@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { AnimatePresence } from "framer-motion";
+import { usePathname } from "next/navigation";
 import { easing } from "../../../consts/animationConfig";
 import Divider from "../../Divider/Divider";
 import { navConfig } from "../../Navbar/navConfig";
@@ -16,6 +18,7 @@ interface NavlinksProps {
 }
 
 export default function Navlinks({ onClose }: NavlinksProps) {
+  const pathname = usePathname();
   const [hoveredId, setHoveredId] = useState<string>(navConfig[0].id);
   const currNavItem = navConfig.find((p) => p.id === hoveredId);
 
@@ -60,12 +63,26 @@ export default function Navlinks({ onClose }: NavlinksProps) {
                 slug={p.slug}
                 name={p.name}
                 isHovered={hoveredId === p.id}
+                isActive={
+                  p.slug === pathname ||
+                  (pathname.includes("projekt/") && p.slug === "/projekty")
+                }
                 onHover={() => setHoveredId(p.id)}
                 onClose={onClose}
               />
             ))}
           </NavlinksList>
-          <Perex>{currNavItem.perex}</Perex>
+          <AnimatePresence mode="wait">
+            <Perex
+              key={hoveredId}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.1 }}
+            >
+              {currNavItem.perex}
+            </Perex>
+          </AnimatePresence>
         </NavlinksContent>
         <Divider fill="white" animate duration={1} />
       </NavlinksLayout>

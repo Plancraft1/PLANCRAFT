@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import styled from "styled-components";
 import { breakpoint } from "../../../../consts/breakpoints";
+import { addColorClasses } from "../../../../helpers/addColorClasses";
 
 export const NavlinkItemWrapper = styled(motion.div)`
   position: relative;
@@ -30,6 +31,14 @@ export const ArrowWrapper = styled(motion.span)`
   ${breakpoint.tabletPortrait} {
     display: none;
   }
+`;
+
+export const NavlinkLabel = styled.span`
+  font-size: 28px;
+  ${breakpoint.phone} {
+    font-size: 21px;
+  }
+  ${addColorClasses()}
 `;
 
 export const NavlinkLink = styled(Link)`

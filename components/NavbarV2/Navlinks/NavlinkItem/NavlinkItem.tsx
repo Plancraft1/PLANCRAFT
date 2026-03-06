@@ -8,6 +8,7 @@ import {
   NavlinkDividerWrapper,
   NavlinkInner,
   NavlinkItemWrapper,
+  NavlinkLabel,
   NavlinkLink,
 } from "./StyledNavlinkItem";
 
@@ -15,6 +16,7 @@ interface NavlinkItemProps {
   slug: string;
   name: string;
   isHovered: boolean;
+  isActive: boolean;
   onHover: () => void;
   onClose: () => void;
 }
@@ -23,6 +25,7 @@ export default function NavlinkItem({
   slug,
   name,
   isHovered,
+  isActive,
   onHover,
   onClose,
 }: NavlinkItemProps) {
@@ -53,9 +56,11 @@ export default function NavlinkItem({
             }}
             transition={{ ease: easing }}
           >
-            <Arrow stroke="primary300" strokeWidth={2} />
+            <Arrow stroke={isActive ? "white" : "primary300"} strokeWidth={2} />
           </ArrowWrapper>
-          <span style={{ fontSize: 28 }}>{name}</span>
+          <NavlinkLabel className={isActive ? "white" : "primary300"}>
+            {name}
+          </NavlinkLabel>
         </NavlinkInner>
       </NavlinkLink>
     </NavlinkItemWrapper>

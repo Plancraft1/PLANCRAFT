@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import styled from "styled-components";
+import { breakpoint } from "../../../consts/breakpoints";
 import { colors } from "../../../consts/colors";
 
 export const StyledNavlinks = styled(motion.div)`
@@ -38,8 +39,22 @@ export const NavlinksList = styled(motion.div)`
   height: 100%;
 `;
 
-export const Perex = styled.p`
+export const Perex = styled(motion.p)`
   width: 600px;
   flex-shrink: 0;
-  font-size: 21px;
+  font-size: 35px;
+  ${breakpoint.monitor} {
+    width: 800px;
+  }
+  ${breakpoint.smallNotebook} {
+    font-size: 28px;
+    width: 500px;
+  }
+  ${breakpoint.tabletLandscape} {
+    font-size: 21px;
+    width: 400px;
+  }
+  ${breakpoint.tabletPortrait} {
+    display: none;
+  }
 `;

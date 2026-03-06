@@ -2,6 +2,7 @@
 
 import styled from "styled-components";
 import { easing } from "../../consts/animationConfig";
+import { breakpoint } from "../../consts/breakpoints";
 import { colors } from "../../consts/colors";
 
 export const StyledNavbar = styled.nav`
@@ -14,6 +15,9 @@ export const BurgerWrapper = styled.button`
   all: unset;
   display: block;
   width: 70px;
+  ${breakpoint.phone} {
+    width: 50px;
+  }
 `;
 
 export const NavbarWrapper = styled.div`
