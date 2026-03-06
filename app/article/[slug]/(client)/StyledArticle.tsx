@@ -8,7 +8,7 @@ import { spaces } from "../../../../consts/spaces";
 
 export const StyledArticle = styled.article`
   max-width: 1200px;
-  margin: calc(2 * var(--gap-size)) auto 0;
+  margin: 0 auto;
   padding: 0 calc(2 * var(--gap-size));
   color: ${colors.primary400};
   ${breakpoint.phone} {

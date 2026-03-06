@@ -31,7 +31,6 @@ export const StyledFilterItems = styled.div`
   display: flex;
   row-gap: ${spaces.xxs}px;
   column-gap: calc(1 * var(--gap-size));
-  padding: 8px 0;
   ${breakpoint.monitor} {
     column-gap: calc(1 * var(--gap-size));
   }

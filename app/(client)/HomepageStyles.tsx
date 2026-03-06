@@ -5,8 +5,7 @@ import { breakpoint } from "../../consts/breakpoints";
 import { colors } from "../../consts/colors";
 
 export const StyledHomepage = styled.main`
-  padding: calc(1 * var(--gap-size));
-  padding-bottom: 0;
+  padding: 0 calc(1 * var(--gap-size));
   position: relative;
 `;
 

@@ -5,7 +5,6 @@ import styled from "styled-components";
 import { breakpoint } from "../../../../consts/breakpoints";
 
 export const StyledProject = styled.main`
-  margin-top: calc(2 * var(--gap-size));
   padding: 0 calc(2 * var(--gap-size));
   ${breakpoint.phone} {
     padding: 0 calc(1 * var(--gap-size));

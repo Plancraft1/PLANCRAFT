@@ -2,7 +2,7 @@
 
 import styled from "styled-components";
 import { breakpoint } from "../../consts/breakpoints";
-import { Large } from "../Typography/Large";
+import { colors } from "../../consts/colors";
 
 export const StyledProjectsHero = styled.div`
   display: grid;
@@ -33,7 +33,9 @@ export const StyledProjectsHero = styled.div`
   }
 `;
 
-export const ProjectsHeroHeader = styled(Large)`
+export const ProjectsHeroHeader = styled.h1`
+  color: ${colors.primary400};
+  font-size: 60px;
   ${breakpoint.monitor} {
     font-size: 70px;
   }

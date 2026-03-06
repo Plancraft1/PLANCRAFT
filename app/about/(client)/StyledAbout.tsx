@@ -4,11 +4,7 @@ import styled from "styled-components";
 import { breakpoint } from "../../../consts/breakpoints";
 
 export const StyledAbout = styled.main`
-  padding: calc(1 * var(--gap-size));
-  padding-bottom: 0;
-  ${breakpoint.phone} {
-    padding: calc(1 * var(--gap-size));
-  }
+  padding: 0 calc(1 * var(--gap-size));
 `;
 
 export const AboutValues = styled.div`

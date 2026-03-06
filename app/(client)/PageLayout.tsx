@@ -3,5 +3,5 @@
 import styled from "styled-components";
 
 export const PageLayout = styled.div`
-  padding-top: var(--navbar-max-height);
+  padding-top: calc(3 * var(--gap-size) + var(--navbar-max-height));
 `;

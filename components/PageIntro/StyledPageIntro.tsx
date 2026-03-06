@@ -2,9 +2,7 @@
 import styled from "styled-components";
 import { breakpoint } from "../../consts/breakpoints";
 
-export const StyledPageIntro = styled.div`
-  padding: 0 calc(1 * var(--gap-size));
-`;
+export const StyledPageIntro = styled.div``;
 
 export const PageIntroHero = styled.section`
   display: grid;

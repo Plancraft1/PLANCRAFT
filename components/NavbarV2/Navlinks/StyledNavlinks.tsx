@@ -18,10 +18,13 @@ export const NavlinksLayout = styled.div`
   flex-direction: column;
   justify-content: space-between;
   padding: calc(1 * var(--gap-size));
-  padding-top: calc(var(--navbar-max-height) + var(--gap-size));
+  padding-top: calc(var(--navbar-max-height) + 3 * var(--gap-size));
   background: ${colors.primary400};
   color: ${colors.white};
   height: 100%;
+  ${breakpoint.tabletPortrait} {
+    padding-top: calc(var(--navbar-max-height) + 6 * var(--gap-size));
+  }
 `;
 
 export const NavlinksContent = styled.div`
