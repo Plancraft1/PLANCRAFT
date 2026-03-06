@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { createPortal } from "react-dom";
+import { AnimatePresence } from "framer-motion";
 import Burger from "../Burger/Burger";
 import Logo from "../Svgs/Logo";
 import {
@@ -18,6 +18,7 @@ import { usePathname } from "next/navigation";
 import { useDataAttrObserver } from "../../hooks/useDataAttrObserver";
 import Navlinks from "./Navlinks/Navlinks";
 import { useDisableScroll } from "../../hooks/useDisableScroll";
+import Portal from "../Portal/Portal";
 
 interface NavbarProps {
   onClick: () => void;
@@ -91,11 +92,11 @@ export default function NavbarController() {
         isOpen={isOpen}
         onClick={() => setIsOpen((p) => !p)}
       />
-      {isOpen &&
-        createPortal(
-          <Navlinks onClose={() => setIsOpen(false)} />,
-          document.body
-        )}
+      <Portal>
+        <AnimatePresence>
+          {isOpen && <Navlinks onClose={() => setIsOpen(false)} />}
+        </AnimatePresence>
+      </Portal>
     </NavbarContainer>
   );
 }

@@ -1,10 +1,10 @@
 "use client";
 
+import { motion } from "framer-motion";
 import styled from "styled-components";
 import { colors } from "../../../consts/colors";
-import Link from "next/link";
 
-export const StyledNavlinks = styled.div`
+export const StyledNavlinks = styled(motion.div)`
   position: fixed;
   top: var(--navbar-max-height);
   right: 0;
@@ -14,25 +14,31 @@ export const StyledNavlinks = styled.div`
 
 export const NavlinksLayout = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  align-items: flex-end;
   padding: calc(1 * var(--gap-size));
   background: ${colors.primary400};
   color: ${colors.white};
   height: 100%;
 `;
 
-export const NavlinksList = styled.div``;
+export const NavlinksContent = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex: 1;
+  column-gap: var(--gap-size);
+`;
 
-export const Navlink = styled(Link)`
-  color: currentColor;
-  display: block;
-  font-size: 28px;
-  padding: 8px 0;
-  text-decoration: none;
+export const NavlinksList = styled(motion.div)`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 `;
 
 export const Perex = styled.p`
-  max-width: 600px;
+  width: 600px;
+  flex-shrink: 0;
   font-size: 21px;
 `;
