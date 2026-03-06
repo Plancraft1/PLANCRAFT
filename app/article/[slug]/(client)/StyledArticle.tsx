@@ -140,12 +140,19 @@ export const ArticleBlock = styled.div`
 
 export const ArticleMeta = styled.div`
   display: flex;
+  align-items: center;
   gap: ${spaces.m}px;
   padding-top: ${spaces.s}px;
   font-size: 16px;
   ${breakpoint.phone} {
     font-size: 14px;
   }
+`;
+
+export const ArticleCategory = styled.span`
+  background-color: ${colors.primary200};
+  border-radius: 4px;
+  padding: 2px 8px;
 `;
 
 export const ArticleImage = styled(Image)`

@@ -8,6 +8,7 @@ import {
   ArticleCoverWrapper,
   ArticleHeader,
   ArticleImage,
+  ArticleCategory,
   ArticleMeta,
   StyledArticle,
 } from "./(client)/StyledArticle";
@@ -68,16 +69,14 @@ function renderBlock(block: _Prepr_Types, index: number) {
       if (!block.html) return null;
       return (
         <ArticleBlock key={block._id}>
-          <RevealAnimation noCrop>
-            {parse(block.html, parserOptions)}
-          </RevealAnimation>
+          <RevealAnimation>{parse(block.html, parserOptions)}</RevealAnimation>
         </ArticleBlock>
       );
 
     case "Assets":
       return (
         <ArticleBlock key={index}>
-          <RevealAnimation noCrop>
+          <RevealAnimation>
             {block.items?.map((asset) =>
               asset?.url ? (
                 <ArticleImage
@@ -111,12 +110,14 @@ const page = async ({ params }: PageProps) => {
     <StyledArticle>
       <ArticleHeader>{article.article_title}</ArticleHeader>
       <ArticleMeta>
+        {article.article_category?.map((cat) => (
+          <ArticleCategory key={cat._slug}>
+            {cat.article_category_name}
+          </ArticleCategory>
+        ))}
         {article._publish_on && (
           <span>Publikováno {formatDate(article._publish_on)}</span>
         )}
-        {article.article_category?.map((cat) => (
-          <span key={cat._slug}>{cat.article_category_name}</span>
-        ))}
       </ArticleMeta>
       {article.article_cover?.url && (
         <ArticleCoverWrapper>
