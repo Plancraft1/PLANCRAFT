@@ -6,7 +6,7 @@ import { colors } from "../../consts/colors";
 export const StyledNavbar = styled.nav`
   display: flex;
   justify-content: space-between;
-  height: 100%;
+  height: var(--gap-size);
 `;
 
 export const BurgerWrapper = styled.button`
@@ -16,13 +16,11 @@ export const BurgerWrapper = styled.button`
 `;
 
 export const NavbarWrapper = styled.div`
-  height: var(--navbar-max-height);
   padding: 0 calc(1 * var(--gap-size));
   padding-top: calc(1 * var(--gap-size));
   border: none;
 
   &.isCompact {
-    height: auto;
     padding: 21px calc(1 * var(--gap-size));
   }
 
@@ -32,8 +30,7 @@ export const NavbarWrapper = styled.div`
   }
 
   &.bgDark {
-    // background-color: ${colors.primary400};
-    background-color: red;
+    background-color: ${colors.primary400};
     color: ${colors.white};
   }
 
@@ -46,6 +43,10 @@ export const NavbarWrapper = styled.div`
     background-color: ${colors.transparent};
     color: ${colors.primary400};
   }
+`;
+
+export const DividerWrapper = styled.div`
+  height: var(--gap-size);
 `;
 
 export const NavbarContainer = styled.div`

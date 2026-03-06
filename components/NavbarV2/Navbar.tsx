@@ -5,6 +5,7 @@ import Burger from "../Burger/Burger";
 import Logo from "../Svgs/Logo";
 import {
   BurgerWrapper,
+  DividerWrapper,
   NavbarContainer,
   NavbarWrapper,
   StyledNavbar,
@@ -56,7 +57,11 @@ function NavbarLayout({
         isCompact,
       })}
     >
-      {!isCompact && <Divider fill={"currentColor"} />}
+      {!isCompact && (
+        <DividerWrapper>
+          <Divider fill={"currentColor"} />
+        </DividerWrapper>
+      )}
       <NavbarInner onClick={onClick} isOpen={isOpen} />
     </NavbarWrapper>
   );
@@ -81,10 +86,11 @@ export default function NavbarController() {
       <NavbarLayout
         isCompact={isOpen ? false : hasScrolled}
         theme={isOpen ? "dark" : hasScrolled ? "light" : "transparent"}
+        hasBorder={isOpen ? false : hasScrolled ? true : false}
         isOpen={isOpen}
         onClick={() => setIsOpen((p) => !p)}
       />
-      {/* {isOpen && <Navlinks />} */}
+      {isOpen && <Navlinks />}
     </NavbarContainer>
   );
 }
