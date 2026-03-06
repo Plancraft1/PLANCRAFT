@@ -20,6 +20,8 @@ export const Global = createGlobalStyle`
     --plus-size: 21px;
     --column-count: 40;
     --gap-size: calc(100vw / var(--column-count));
+    --navbar-max-height: calc(3 * var(--gap-size));
+
     ${breakpoint.monitor} {
       --dot-size: 2px;
     }

@@ -13,6 +13,7 @@ export const colors = {
   gray300: "#c6c6c6",
   gray200: "#e0e0e0",
   gray100: "#f4f4f4",
+  transparent: "transparent",
 } as const;
 
 export type ColorKeys = keyof typeof colors;

@@ -7,7 +7,7 @@ import Plus from "../Svgs/Plus";
 import { DividerLine, PlusWrapper, StyledDivider } from "./StyledDivider";
 
 interface DividerProps {
-  fill?: ColorKeys;
+  fill?: ColorKeys | "currentColor";
   hidePlus?: boolean;
   animate?: boolean | "inView" | "animatePresence";
   duration?: number;

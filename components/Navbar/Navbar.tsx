@@ -2,9 +2,10 @@
 
 import { AnimatePresence } from "framer-motion";
 import { usePathname } from "next/navigation";
-import { useLayoutEffect, useState } from "react";
+import { useState } from "react";
 import { easing } from "../../consts/animationConfig";
 import { device } from "../../consts/breakpoints";
+import { useDataAttrObserver } from "../../hooks/useDataAttrObserver";
 import { useScrollDirection } from "../../hooks/useScrollDirection";
 import { useWindowSize } from "../../hooks/useWindowSize";
 import Burger from "../Burger/Burger";
@@ -40,33 +41,17 @@ const Navbar = ({}: NavbarProps) => {
   const { directionDown, scrollPos } = useScrollDirection();
   const { w } = useWindowSize();
   const [hoverIndex, setHoverIndex] = useState<number>(0);
-  const [hideNavbarInSection, setHideNavbarInSection] = useState(false);
   const pathname = usePathname();
+  const [hideNavbarInSection, resetHideNavbar] = useDataAttrObserver(
+    "data-hide-navbar",
+    { rootMargin: "-10% 0% -90% 0%" },
+    [pathname]
+  );
   const showNavbar = !directionDown && !hideNavbarInSection;
-
-  useLayoutEffect(() => {
-    const hideNavbarElements = document.querySelectorAll("[data-hide-navbar]");
-    if (hideNavbarElements.length === 0) return;
-
-    const observer = new IntersectionObserver(
-      (entries) =>
-        entries.forEach((entry) => {
-          setHideNavbarInSection(entry.isIntersecting);
-        }),
-      { rootMargin: "-10% 0% -90% 0%" }
-    );
-
-    hideNavbarElements.forEach((el) => {
-      observer.observe(el);
-    });
-    return () => {
-      observer.disconnect();
-    };
-  }, [pathname]);
 
   const handleClose = () => {
     setIsOpen(false);
-    setHideNavbarInSection(false);
+    resetHideNavbar();
   };
 
   const isCompact = isOpen ? false : scrollPos > 100;
@@ -91,8 +76,8 @@ const Navbar = ({}: NavbarProps) => {
                 <Divider fill={isOpen ? "white" : "primary400"} />
               </NavbarDividerWrapper>
               <TopbarContent
-                layoutId='navbar-content'
-                layout='position'
+                layoutId="navbar-content"
+                layout="position"
                 className={`${isCompact ? "compact" : ""} ${
                   isOpen ? "open" : "closed"
                 }`}
@@ -174,7 +159,7 @@ const Navbar = ({}: NavbarProps) => {
                                 <NavlinkDividerWrapper>
                                   <Divider
                                     hidePlus
-                                    fill='white'
+                                    fill="white"
                                     animate={isOpen}
                                   />
                                 </NavlinkDividerWrapper>
@@ -184,8 +169,8 @@ const Navbar = ({}: NavbarProps) => {
                                       w <= device.tabletPortrait
                                         ? 0
                                         : isHover
-                                        ? 50
-                                        : 0,
+                                          ? 50
+                                          : 0,
                                   }}
                                   transition={{ ease: easing }}
                                 >
@@ -226,7 +211,7 @@ const Navbar = ({}: NavbarProps) => {
                         {navConfig[hoverIndex].perex}
                       </LinkDescription>
                     </NavigationDashboard>
-                    <Divider fill='white' />
+                    <Divider fill="white" />
                   </NavLinks>
                 </>
               )}

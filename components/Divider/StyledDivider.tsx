@@ -25,10 +25,12 @@ export const PlusWrapper = styled.div`
   }
 `;
 
-export const DividerLine = styled(motion.div)<{ color: ColorKeys }>`
+export const DividerLine = styled(motion.div)<{
+  color: ColorKeys | "currentColor";
+}>`
   width: 100%;
   height: var(--dot-size);
-  background-color: ${({ color }) => colors[color]};
+  background-color: ${({ color }) => colors?.[color] || color};
   transform-origin: 0 0;
   &.reverse {
     transform-origin: 100% 0;

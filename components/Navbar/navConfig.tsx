@@ -6,28 +6,33 @@ import { servicesData } from "../../app/service/[slug]/servicesData";
 
 export const navConfig = [
   ...Object.keys(servicesData).map((slug) => ({
+    name: servicesData[slug].name,
     slug: `/sluzba/${slug}`,
     perex: servicesData[slug].servicePerex,
-    name: servicesData[slug].name,
+    id: servicesData[slug].id,
   })),
   {
     name: "Projekty",
     slug: "/projekty",
     perex: projectsData.heroPerex,
+    id: "projects",
   },
   {
     name: articlesData.name,
     slug: "/clanky",
     perex: articlesData.heroPerex,
+    id: "articles",
   },
   {
     name: "O nás",
     slug: "/o-nas",
     perex: aboutData.introPerex,
+    id: "about",
   },
   {
     name: "Kontakt",
     slug: "/kontakt",
     perex: contactData.header,
+    id: "contact",
   },
 ];
