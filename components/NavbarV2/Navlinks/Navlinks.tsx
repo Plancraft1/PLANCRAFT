@@ -30,30 +30,34 @@ export default function Navlinks({ onClose }: NavlinksProps) {
       variants={{
         hidden: {
           opacity: 0,
-          transition: { staggerChildren: 0.05, when: "afterChildren" },
+          transition: {
+            duration: 0.5,
+            staggerChildren: 0.05,
+            when: "afterChildren",
+            ease: easing,
+          },
         },
         visible: {
           opacity: 1,
-          transition: { staggerChildren: 0.05, when: "beforeChildren" },
+          transition: {
+            staggerChildren: 0.05,
+            when: "beforeChildren",
+            ease: easing,
+          },
         },
       }}
     >
       <NavlinksLayout>
         <NavlinksContent>
           <NavlinksList
-            initial="hidden"
-            animate="visible"
-            exit="hidden"
             variants={{
               hidden: {
                 transition: {
                   staggerChildren: 0.05,
-                  staggerDirection: -1,
-                  ease: easing,
                 },
               },
               visible: {
-                transition: { staggerChildren: 0.05, ease: easing },
+                transition: { staggerChildren: 0.05 },
               },
             }}
           >
@@ -79,6 +83,10 @@ export default function Navlinks({ onClose }: NavlinksProps) {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.1 }}
+              variants={{
+                hidden: { opacity: 0 },
+                visible: { opacity: 1 },
+              }}
             >
               {currNavItem.perex}
             </Perex>

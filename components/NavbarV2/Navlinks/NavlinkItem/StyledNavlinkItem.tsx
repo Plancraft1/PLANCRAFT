@@ -38,6 +38,9 @@ export const NavlinkLabel = styled.span`
   ${breakpoint.phone} {
     font-size: 21px;
   }
+  ${breakpoint.monitor} {
+    font-size: 36px;
+  }
   ${addColorClasses()}
 `;
 
