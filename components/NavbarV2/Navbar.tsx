@@ -39,7 +39,7 @@ function NavbarInner({ onClick, isOpen }: NavbarProps) {
 interface NavbarInnerProps {
   isCompact?: boolean;
   hasBorder?: boolean;
-  theme?: "dark" | "light" | "transparent";
+  theme?: "dark" | "light" | "transparent" | "transparentLight";
 }
 
 function NavbarLayout({
@@ -53,6 +53,7 @@ function NavbarLayout({
     <NavbarWrapper
       className={clsx({
         bgTransparent: theme === "transparent",
+        bgTransparentLight: theme === "transparentLight",
         bgLight: theme === "light",
         bgDark: theme === "dark",
         hasBorder,
@@ -87,7 +88,9 @@ export default function NavbarController() {
     <NavbarContainer className={clsx({ hidden: hideNavbar, opened: isOpen })}>
       <NavbarLayout
         isCompact={isOpen ? false : hasScrolled}
-        theme={isOpen ? "dark" : hasScrolled ? "light" : "transparent"}
+        theme={
+          isOpen ? "transparentLight" : hasScrolled ? "light" : "transparent"
+        }
         hasBorder={isOpen ? false : hasScrolled ? true : false}
         isOpen={isOpen}
         onClick={() => setIsOpen((p) => !p)}

@@ -44,6 +44,11 @@ export const NavbarWrapper = styled.div`
     background-color: ${colors.transparent};
     color: ${colors.primary400};
   }
+
+  &.bgTransparentLight {
+    background-color: ${colors.transparent};
+    color: ${colors.white};
+  }
 `;
 
 export const DividerWrapper = styled.div`

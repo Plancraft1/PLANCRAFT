@@ -6,7 +6,7 @@ import { colors } from "../../../consts/colors";
 
 export const StyledNavlinks = styled(motion.div)`
   position: fixed;
-  top: var(--navbar-max-height);
+  top: 0;
   right: 0;
   left: 0;
   bottom: 0;
@@ -17,6 +17,7 @@ export const NavlinksLayout = styled.div`
   flex-direction: column;
   justify-content: space-between;
   padding: calc(1 * var(--gap-size));
+  padding-top: calc(var(--navbar-max-height) + var(--gap-size));
   background: ${colors.primary400};
   color: ${colors.white};
   height: 100%;
