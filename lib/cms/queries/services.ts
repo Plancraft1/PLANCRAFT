@@ -7,6 +7,7 @@ export const SERVICES_QUERY = gql`
       items {
         _id
         _slug
+        _changed_on
         service_name
       }
     }

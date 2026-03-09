@@ -60,6 +60,7 @@ export const PROJECTS_QUERY = gql`
         is_featured
         _id
         _slug
+        _changed_on
         project_category {
           service_name
           _slug
