@@ -7,6 +7,7 @@ export const ARTICLE_CATEGORIES_QUERY = gql`
       items {
         _id
         _slug
+        _changed_on
         article_category_name
       }
     }
