@@ -1,3 +1,5 @@
+export {};
+
 const PREPR_API_URL = "https://mutation.prepr.io/content_items";
 const ACCESS_TOKEN = process.env.PREPR_MUTATION_ACCESS_TOKEN;
 const ARTICLE_CATEGORY_MODEL_ID = "70475afa-019a-406f-a17b-fdc3cb18f480";
