@@ -34,7 +34,7 @@ export const contactData = {
     },
     {
       header: "Provozovna",
-      body: "Lazaretní 1/7,\n615 00 Brno - Zábrdovice, Česko",
+      body: "Plynárenská 499/1,\n602 00 Brno-střed",
     },
   ],
 };
