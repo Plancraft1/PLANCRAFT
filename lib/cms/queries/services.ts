@@ -1,12 +1,13 @@
 import { gql } from "@apollo/client";
 
-export const GetServices = gql`
+export const SERVICES_QUERY = gql`
   query Services($locale: String!, $limit: Int) {
     Services(locale: $locale, limit: $limit) {
       total
       items {
         _id
         _slug
+        _changed_on
         service_name
       }
     }

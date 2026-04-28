@@ -1,27 +1,22 @@
 import { Metadata } from "next";
 import { homepageData } from "../../(client)/homepageData";
-import getClient from "../../../apollo/client";
+import { getProjectsByCategory, getServices } from "../../../lib/cms";
 import ClientQuote from "../../../components/ClientQuote/ClientQuote";
-import DividerHeader from "../../../components/Divider/DividerHeader";
-import RevealAnimation from "../../../components/TextAnimation/RevealAnimation";
-import { Large } from "../../../components/Typography/Large";
-import { Mini } from "../../../components/Typography/Mini";
-import { GetProjects } from "../../../gql/GetProjects";
-import { GetServices } from "../../../gql/GetServices";
-import {
-  Query,
-  QueryProjectsArgs,
-  QueryServicesArgs,
-} from "../../../gql/types";
-import ProjectsGrid, { projectsPerPage } from "./(client)/ProjectsGrid";
-import {
-  ProjectDividerHeaderInner,
-  ProjectFilter,
-  ProjectFilters,
-  ProjectsHero,
-  StyledProjects,
-} from "./(client)/StyledProjects";
+import FilterBar, { FilterItem } from "../../../components/FilterBar/FilterBar";
+import ProjectsHero from "../../../components/ProjectsHero/ProjectsHero";
+import ProjectsGrid from "./(client)/ProjectsGrid";
+import { StyledProjects } from "./(client)/StyledProjects";
 import { projectsData } from "./(client)/projectsData";
+import { notFound } from "next/navigation";
+import { PROJECTS_PER_PAGE } from "../../../consts/pagination";
+
+export async function generateStaticParams() {
+  const { items } = await getServices();
+  return [
+    { category: [] },
+    ...items.map((service) => ({ category: [service._slug] })),
+  ];
+}
 
 export async function generateMetadata() {
   return {
@@ -35,78 +30,41 @@ export async function generateMetadata() {
   };
 }
 
-export const revalidate = 10;
-
 interface PageProps {
-  params: { category: string };
+  params: Promise<{ category: string }>;
 }
 
-const page = async ({ params: { category } }: PageProps) => {
-  const client = getClient();
+const page = async ({ params }: PageProps) => {
+  const { category } = await params;
+  const [projects, services] = await Promise.all([
+    getProjectsByCategory({
+      categorySlug: category,
+      limit: PROJECTS_PER_PAGE,
+    }),
+    getServices(),
+  ]);
 
-  const {
-    data: { Projects },
-  } = await client.query<Query>({
-    query: GetProjects,
-    variables: {
-      limit: 6,
-      where: {
-        project_category: { _slug_any: category || [] },
-      },
-      coverImageFormat: "webp",
-      coverImageCropPreset: "gridcover",
-    } as QueryProjectsArgs,
-  });
+  if (projects.total === 0) {
+    notFound();
+  }
 
-  const {
-    data: { Services },
-  } = await client.query<Query>({
-    query: GetServices,
-    variables: { limit: null, locale: "cs-CZ" } as QueryServicesArgs,
-  });
+  const filters: FilterItem[] = [
+    { label: "Vše", href: "/projekty", isActive: !category },
+    ...services.items.map(({ service_name, _slug }) => ({
+      label: service_name,
+      href: `/projekty/${_slug}`,
+      isActive: category?.includes(_slug) ?? false,
+    })),
+  ];
 
   return (
     <StyledProjects>
-      <ProjectsHero>
-        <RevealAnimation>
-          <Large>{projectsData.heroHeader}</Large>
-        </RevealAnimation>
-        <RevealAnimation delay={1}>
-          <Mini>{projectsData.heroPerex}</Mini>
-        </RevealAnimation>
-      </ProjectsHero>
-      <DividerHeader className="no-padding">
-        <ProjectDividerHeaderInner>
-          <RevealAnimation delay={0.5}>
-            <Mini className="uppercase">Filtry</Mini>
-          </RevealAnimation>
-          <ProjectFilters>
-            <RevealAnimation delay={1} style={{ width: "auto" }}>
-              <ProjectFilter
-                href={"/projekty"}
-                className={category ? "inactive" : ""}
-              >
-                <Mini>Vše</Mini>
-              </ProjectFilter>
-            </RevealAnimation>
-            {Services.items.map(({ service_name, _slug }, i) => (
-              <RevealAnimation
-                delay={i * 0.5 + 1}
-                style={{ width: "auto" }}
-                key={_slug}
-              >
-                <ProjectFilter
-                  href={`/projekty/${_slug}`}
-                  className={category?.includes(_slug) ? "" : "inactive"}
-                >
-                  <Mini>{service_name}</Mini>
-                </ProjectFilter>
-              </RevealAnimation>
-            ))}
-          </ProjectFilters>
-        </ProjectDividerHeaderInner>
-      </DividerHeader>
-      <ProjectsGrid projects={Projects} totalCount={Projects.total} />
+      <ProjectsHero
+        header={projectsData.heroHeader}
+        perex={projectsData.heroPerex}
+      />
+      <FilterBar label="Filtry" filters={filters} className="no-padding" />
+      <ProjectsGrid projects={projects} totalCount={projects.total} />
       <ClientQuote
         quote={projectsData.quote.quote}
         client={projectsData.quote.client}

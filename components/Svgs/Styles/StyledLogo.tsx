@@ -1,6 +1,11 @@
 "use client";
 import styled from "styled-components";
 import { breakpoint } from "../../../consts/breakpoints";
+import Link from "next/link";
+
+export const LogoLink = styled(Link)`
+  color: currentColor;
+`;
 
 export const StyledLogo = styled.svg`
   display: block;

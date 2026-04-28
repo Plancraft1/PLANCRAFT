@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-export const GetHomepageProjects = gql`
+export const HOMEPAGE_PROJECTS_QUERY = gql`
   query Query(
     $coverImageWidth: Int
     $coverImageHeight: Int

@@ -1,50 +1,46 @@
 "use client";
 
-import { useLazyQuery } from "@apollo/client";
+import { useAction } from "next-safe-action/hooks";
 import { useParams } from "next/navigation";
 import { Fragment, useState } from "react";
-import getClient from "../../../../apollo/client";
+import type { Project, Projects } from "../../../../gql/types";
 import Button from "../../../../components/Button/Button";
 import Divider from "../../../../components/Divider/Divider";
-import ProjectCard from "../../../../components/ProjectCard/ProjectCard";
+import GridCard from "../../../../components/GridCard/GridCard";
 import RevealAnimation from "../../../../components/TextAnimation/RevealAnimation";
-import { GetProjects } from "../../../../gql/GetProjects";
-import {
-  Project,
-  Projects,
-  Query,
-  QueryProjectsArgs,
-} from "../../../../gql/types";
-import {
-  LoadMoreW,
-  ProjectCardW,
-  StyledProjectsGrid,
-} from "./StyledProjectsGrid";
+import { loadMoreProjectsAction } from "./actions";
+import { PROJECTS_PER_PAGE } from "../../../../consts/pagination";
+import { LoadMoreW, GridCardW, StyledProjectsGrid } from "./StyledProjectsGrid";
 
 interface ProjectsGridProps {
   projects: Projects;
   totalCount: number;
 }
 
-export const projectsPerPage = 6;
-
 const ProjectsGrid = ({
   projects: initialProjects,
   totalCount,
 }: ProjectsGridProps) => {
   const [projects, setProjects] = useState<Project[]>(initialProjects.items);
-  const [skip, setSkip] = useState<number>(projectsPerPage);
+  const [skip, setSkip] = useState<number>(PROJECTS_PER_PAGE);
   const query = useParams<{ category: string[] }>();
 
-  const client = getClient();
-
-  const [getProjects, { loading }] = useLazyQuery<Query>(GetProjects, {
-    client: client,
-    onCompleted(data) {
-      setSkip((p) => p + projectsPerPage);
-      setProjects((p) => [...p, ...data.Projects.items]);
+  const { execute, isPending } = useAction(loadMoreProjectsAction, {
+    onSuccess: ({ data }) => {
+      if (data) {
+        setSkip((p) => p + PROJECTS_PER_PAGE);
+        setProjects((p) => [...p, ...data.items]);
+      }
     },
   });
+
+  const handleLoadMore = () => {
+    execute({
+      skip,
+      limit: PROJECTS_PER_PAGE,
+      category: query.category,
+    });
+  };
 
   return (
     <StyledProjectsGrid>
@@ -57,16 +53,17 @@ const ProjectsGrid = ({
             project_category,
             project_cover,
           },
-          i,
+          i
         ) => (
           <Fragment key={_slug}>
             <RevealAnimation>
-              <ProjectCardW>
-                <ProjectCard
-                  projectName={project_name}
-                  slug={_slug}
-                  realization={project_realization}
-                  services={project_category}
+              <GridCardW>
+                <GridCard
+                  title={project_name}
+                  href={`/projekt/${_slug}`}
+                  tags={project_category.map((c) => c.service_name)}
+                  detail={`Realizace ${project_realization}`}
+                  ctaLabel="Zobrazit projekt"
                   image={{
                     src: project_cover?.url,
                     width: project_cover?.width,
@@ -74,30 +71,17 @@ const ProjectsGrid = ({
                     alt: project_cover?.description || project_name,
                   }}
                 />
-              </ProjectCardW>
+              </GridCardW>
             </RevealAnimation>
             {!(i === projects.length) && <Divider hidePlus />}
           </Fragment>
-        ),
+        )
       )}
       {totalCount > projects.length && (
         <LoadMoreW>
           <RevealAnimation noCrop>
-            <Button
-              onClick={() => {
-                getProjects({
-                  variables: {
-                    locale: "cs-CZ",
-                    skip: skip,
-                    limit: projectsPerPage,
-                    where: {
-                      project_category: { _slug_any: query.category || [] },
-                    },
-                  } as QueryProjectsArgs,
-                });
-              }}
-            >
-              {loading ? "Načítám" : "Další projekty"}
+            <Button onClick={handleLoadMore}>
+              {isPending ? "Načítám" : "Další projekty"}
             </Button>
           </RevealAnimation>
         </LoadMoreW>

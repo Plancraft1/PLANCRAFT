@@ -24,7 +24,7 @@ export const NavbarPlaceholder = styled.div`
     height: calc(5 * var(--gap-size));
   }
   ${breakpoint.tabletLandscape} {
-    height: calc(7 * var(--gap-size));
+    height: calc(6 * var(--gap-size));
   }
 `;
 
@@ -78,6 +78,9 @@ export const LogoWrapper = styled(Link)`
   display: flex;
   align-items: center;
   height: 100%;
+  ${breakpoint.phone} {
+    height: calc(1 * var(--gap-size));
+  }
   /* aspect-ratio: 321/43; */
   /* ${breakpoint.tabletLandscape} {
     height: calc(1.5 * var(--gap-size));

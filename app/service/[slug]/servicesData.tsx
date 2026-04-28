@@ -20,7 +20,7 @@ export type ServiceContentItem = Bullets | Text | Header;
 export type Cabinet = {
   mainHeader: string;
   list: {
-    slug?: string;
+    slug: string;
     linkLabel?: string;
     header: string;
     image: ImageProps;
@@ -38,6 +38,7 @@ export interface ServiceContentList {
 }
 
 export type PageData = PageIntroProps & {
+  id: string;
   name: string;
   homepageServiceCabinetItem: ServiceContentItem;
   serviceContent: ServiceContentList | ServiceContentCabinet;
@@ -52,6 +53,7 @@ export type ServicesData = {
 
 export const servicesData: ServicesData = {
   "projektova-dokumentace": {
+    id: "projektova-dokumentace",
     name: "Projektová dokumentace",
     homepageServiceCabinetItem: {
       type: "text",
@@ -216,6 +218,7 @@ export const servicesData: ServicesData = {
     },
   },
   pasportizace: {
+    id: "pasportizace",
     name: "Pasportizace",
     homepageServiceCabinetItem: {
       type: "text",
@@ -379,6 +382,7 @@ export const servicesData: ServicesData = {
     },
   },
   "energeticka-uspornost": {
+    id: "energeticka-uspornost",
     name: "Energetická úspornost",
     homepageServiceCabinetItem: {
       type: "text",
@@ -476,6 +480,7 @@ export const servicesData: ServicesData = {
     },
   },
   "design-due-diligence": {
+    id: "design-due-diligence",
     name: "Design due diligence",
     homepageServiceCabinetItem: {
       type: "text",

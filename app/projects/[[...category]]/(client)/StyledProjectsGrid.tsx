@@ -5,7 +5,7 @@ export const StyledProjectsGrid = styled.div`
   display: grid;
 `;
 
-export const ProjectCardW = styled.div`
+export const GridCardW = styled.div`
   height: fit-content;
 `;
 

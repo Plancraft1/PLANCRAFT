@@ -1,14 +1,13 @@
 import { Metadata } from "next";
 import React from "react";
 import BackgroundGrid from "../components/BackgroundGrid/BackgroundGrid";
-import { BackgroundGridProvider } from "../components/BackgroundGrid/BackgroundGridProvider";
 import Footer from "../components/Footer/Footer";
-import Loader from "../components/Loader/Loader";
-import Navbar from "../components/Navbar/Navbar";
+import Navbar from "../components/NavbarV2/Navbar";
 import { colors } from "../consts/colors";
 import StyledComponentsRegistry from "../lib/registry";
 import { Global } from "./(client)/Global";
 import { homepageData } from "./(client)/homepageData";
+import { PageLayout } from "./(client)/PageLayout";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://plancraft.eu"),
@@ -39,12 +38,12 @@ export const metadata: Metadata = {
 
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <html lang='cs'>
+    <html lang="cs">
       <StyledComponentsRegistry>
         <Global />
         <body>
           <Navbar />
-          {children}
+          <PageLayout>{children}</PageLayout>
           <BackgroundGrid />
           <Footer />
         </body>

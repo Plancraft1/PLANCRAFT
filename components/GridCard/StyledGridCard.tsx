@@ -7,12 +7,12 @@ import styled from "styled-components";
 import { breakpoint } from "../../consts/breakpoints";
 import { spaces } from "../../consts/spaces";
 
-export const StyledProjectCard = styled(Link)`
+export const StyledGridCard = styled(Link)`
   all: unset;
   cursor: pointer;
 `;
 
-export const ProjectCardInner = styled.div`
+export const GridCardInner = styled.div`
   display: grid;
   grid-template-columns: calc(9 * var(--gap-size)) 1fr;
   column-gap: calc(3 * var(--gap-size));
@@ -30,7 +30,7 @@ export const ProjectCardInner = styled.div`
   }
 `;
 
-export const ProjectCardZoomW = styled.div`
+export const GridCardZoomW = styled.div`
   height: 100%;
   ${breakpoint.tabletPortrait} {
     height: 30vh;
@@ -40,34 +40,34 @@ export const ProjectCardZoomW = styled.div`
   }
 `;
 
-export const ProjectCardImage = styled(Image)`
+export const GridCardImage = styled(Image)`
   width: 100%;
   max-height: 100%;
   object-fit: contain;
   object-position: 0 0;
 `;
 
-export const ProjectCardImageMask = styled.div`
+export const GridCardImageMask = styled.div`
   aspect-ratio: 1;
   height: 100%;
   max-width: 100%;
   overflow: hidden;
 `;
 
-export const ProjectCardImageAnimationW = styled.div`
+export const GridCardImageAnimationW = styled.div`
   aspect-ratio: 1;
   height: fit-content;
   max-width: 100%;
   overflow: hidden;
 `;
 
-export const ProjectCardImageAnimation = styled(motion.div)`
+export const GridCardImageAnimation = styled(motion.div)`
   transform-origin: 50% 50%;
   max-height: 100%;
   max-width: 100%;
 `;
 
-export const ProjectCardContent = styled.div`
+export const GridCardContent = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -77,7 +77,7 @@ export const ProjectCardContent = styled.div`
   }
 `;
 
-export const ProjectCardContentHeader = styled.div`
+export const GridCardContentHeader = styled.div`
   display: flex;
   justify-content: space-between;
   column-gap: calc(1 * var(--gap-size));
@@ -91,7 +91,7 @@ export const ProjectCardContentHeader = styled.div`
   }
 `;
 
-export const ProjectCardServices = styled.div`
+export const GridCardTags = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -107,7 +107,7 @@ export const ProjectCardServices = styled.div`
   }
 `;
 
-export const ProjectCardContentFooter = styled(motion.div)`
+export const GridCardContentFooter = styled(motion.div)`
   display: flex;
   justify-content: space-between;
   ${breakpoint.tabletPortrait} {

@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode } from "react";
+import { JSX, ReactNode } from "react";
 import { CSSProperties } from "styled-components";
 import { easing } from "../../consts/animationConfig";
 import {

@@ -20,24 +20,13 @@ export const StyledDividerHeader = styled.div`
 export const StyledDividerHeaderInner = styled.div`
   display: flex;
   align-items: center;
-  padding-left: calc(1 * var(--gap-size));
-  padding-right: calc(1 * var(--gap-size));
-  height: calc(2 * var(--gap-size));
-  padding-top: 0;
+  padding: 12px calc(1 * var(--gap-size));
   ${StyledProjects} & {
     ${breakpoint.tabletLandscape} {
-      height: auto;
       padding-bottom: ${spaces.xs}px;
     }
-    ${breakpoint.tabletPortrait} {
-      min-height: auto;
-    }
-  }
-  ${breakpoint.tabletPortrait} {
-    min-height: calc(2 * var(--gap-size));
   }
   ${breakpoint.phone} {
-    min-height: calc(2 * var(--gap-size));
-    padding: 0;
+    padding: 12px 0;
   }
 `;

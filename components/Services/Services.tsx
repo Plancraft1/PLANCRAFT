@@ -50,10 +50,7 @@ const Services = ({ list, mainHeader }: ServicesProps) => {
               <Small className="uppercase wide">{header}</Small>
             </ServiceHeaderContent>
           </ServiceHeader>,
-          <ServiceContent
-            key={`${"content" + i}`}
-            {...(slug ? { href: slug } : { as: "span" })}
-          >
+          <ServiceContent key={`${"content" + i}`} href={slug}>
             <ServiceContentLeft>
               <ServiceContentLeftInner>
                 {content.map((item, i) => {
@@ -85,15 +82,13 @@ const Services = ({ list, mainHeader }: ServicesProps) => {
                   }
                 })}
               </ServiceContentLeftInner>
-              {slug && (
-                <ServiceContentLeftCta>
-                  <Link href={slug} as={"span"}>
-                    <Mini className="uppercase">
-                      {linkLabel ? linkLabel : "Zjistit více"}
-                    </Mini>
-                  </Link>
-                </ServiceContentLeftCta>
-              )}
+              <ServiceContentLeftCta>
+                <Link href={slug} as={"span"}>
+                  <Mini className="uppercase">
+                    {linkLabel ? linkLabel : "Zjistit více"}
+                  </Mini>
+                </Link>
+              </ServiceContentLeftCta>
             </ServiceContentLeft>
             <ServiceContentRight>
               <ServiceCover

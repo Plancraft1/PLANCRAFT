@@ -3,7 +3,7 @@ import { useRaf } from "./useRaf";
 
 export function useScrollInertia(ref) {
   const speed = useRef(0);
-  const diamondEls = useRef<NodeListOf<HTMLElement>>();
+  const diamondEls = useRef<NodeListOf<HTMLElement> | null>(null);
   useRaf(ref, function raf() {
     speed.current = speed.current * 0.99;
 

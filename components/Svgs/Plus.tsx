@@ -4,14 +4,17 @@ import { ColorKeys, colors } from "../../consts/colors";
 import { StyledPlus } from "./Styles/StyledPlus";
 
 interface PlusProps {
-  stroke?: ColorKeys;
+  stroke?: ColorKeys | "currentColor";
   width?: number;
 }
 
 const Plus = ({ stroke = "primary400", width = 21 }: PlusProps) => {
   const size = 100;
   return (
-    <StyledPlus viewBox={`0 0 ${size} ${size}`} stroke={colors[stroke]}>
+    <StyledPlus
+      viewBox={`0 0 ${size} ${size}`}
+      stroke={colors?.[stroke] || stroke}
+    >
       <g>
         <line
           x1={0}

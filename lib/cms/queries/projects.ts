@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-export const GetProjects = gql`
+export const PROJECTS_QUERY = gql`
   query Query(
     $where: ProjectWhereInput
     $limit: Int
@@ -60,6 +60,7 @@ export const GetProjects = gql`
         is_featured
         _id
         _slug
+        _changed_on
         project_category {
           service_name
           _slug

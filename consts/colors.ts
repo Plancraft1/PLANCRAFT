@@ -1,6 +1,7 @@
 export const colors = {
   primary400: "#364785",
   primary300: "#BDC7EC",
+  primary200: "#DEE3F5",
   black: "#000000",
   white: "#FFFFFF",
   gray1000: "#161616",
@@ -13,6 +14,7 @@ export const colors = {
   gray300: "#c6c6c6",
   gray200: "#e0e0e0",
   gray100: "#f4f4f4",
+  transparent: "transparent",
 } as const;
 
 export type ColorKeys = keyof typeof colors;
