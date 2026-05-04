@@ -4,7 +4,7 @@ export const aboutData = {
     "Projekční studio, které vám pomůže vybudovat i vaše nejsložitější vize.",
   figureBanner: {
     perex:
-      "Jsme stabilním inženýrským partnerem pro architektonická studia a developery, poskytující technickou podporu a expertizu, odborné know-how a zajišťující včasné a kvalitní provedení projektu při dodržení kvalitního designu a optimaliazce nákladů.",
+      "Jsme stabilním inženýrským partnerem pro architektonická studia a developery, poskytující technickou podporu a expertizu, odborné know-how a zajišťující včasné a kvalitní provedení projektu při dodržení kvalitního designu a optimalizace nákladů.",
     image: {
       src: "/img/aboutpage-6.jpg",
       alt: "Projekční studio, které vám pomůže vybudovat i vaše nejsložitější vize.",
