@@ -1,6 +1,7 @@
 import { Metadata } from "next";
-import React from "react";
+import React, { Suspense } from "react";
 import BackgroundGrid from "../components/BackgroundGrid/BackgroundGrid";
+import FacebookPixel from "../components/FacebookPixel/FacebookPixel";
 import Footer from "../components/Footer/Footer";
 import Navbar from "../components/NavbarV2/Navbar";
 import { colors } from "../consts/colors";
@@ -42,6 +43,9 @@ const layout = ({ children }: { children: React.ReactNode }) => {
       <StyledComponentsRegistry>
         <Global />
         <body>
+          <Suspense>
+            <FacebookPixel />
+          </Suspense>
           <Navbar />
           <PageLayout>{children}</PageLayout>
           <BackgroundGrid />
