@@ -71,6 +71,15 @@ export const FooterCopywrite = styled.div`
   }
 `;
 
+export const FooterLegalLinks = styled.div`
+  display: flex;
+  gap: calc(1 * var(--gap-size));
+  ${breakpoint.phone} {
+    flex-direction: column;
+    gap: 0;
+  }
+`;
+
 export const FooterPublicity = styled.div`
   display: flex;
   background-color: ${colors.white};

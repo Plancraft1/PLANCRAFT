@@ -15,6 +15,7 @@ import {
   FooterContactLinks,
   FooterContactText,
   FooterCopywrite,
+  FooterLegalLinks,
   FooterLogo,
   FooterPublicity,
   PublicityLogo,
@@ -61,9 +62,21 @@ const Footer = ({}: FooterProps) => {
       <Divider fill="white" hidePlus />
       <FooterCopywrite>
         <Mini className="white">{new Date().getFullYear()} PLANCRAFT</Mini>
-        <Mini className="white">
-          <CookieSettingsLink>Nastavení cookies</CookieSettingsLink>
-        </Mini>
+        <FooterLegalLinks>
+          <Mini className="white">
+            <CookieSettingsLink>Nastavení cookies</CookieSettingsLink>
+          </Mini>
+          <Mini className="white">
+            <Link
+              noArrow
+              className="underline inline"
+              href={"/privacy-policy.pdf"}
+              target={"_blank"}
+            >
+              Ochrana osobních údajů
+            </Link>
+          </Mini>
+        </FooterLegalLinks>
         <Mini className="white tar">
           Made with Style & Ease by{" "}
           <Link
