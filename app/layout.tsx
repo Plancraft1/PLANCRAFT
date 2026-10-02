@@ -1,7 +1,8 @@
 import { Metadata } from "next";
-import React, { Suspense } from "react";
+import React from "react";
+import "@c15t/nextjs/styles.css";
 import BackgroundGrid from "../components/BackgroundGrid/BackgroundGrid";
-import FacebookPixel from "../components/FacebookPixel/FacebookPixel";
+import CookieConsent from "../components/CookieConsent/CookieConsent";
 import Footer from "../components/Footer/Footer";
 import Navbar from "../components/NavbarV2/Navbar";
 import { colors } from "../consts/colors";
@@ -43,13 +44,12 @@ const layout = ({ children }: { children: React.ReactNode }) => {
       <StyledComponentsRegistry>
         <Global />
         <body>
-          <Suspense>
-            <FacebookPixel />
-          </Suspense>
-          <Navbar />
-          <PageLayout>{children}</PageLayout>
-          <BackgroundGrid />
-          <Footer />
+          <CookieConsent>
+            <Navbar />
+            <PageLayout>{children}</PageLayout>
+            <BackgroundGrid />
+            <Footer />
+          </CookieConsent>
         </body>
       </StyledComponentsRegistry>
     </html>

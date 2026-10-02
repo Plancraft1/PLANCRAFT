@@ -23,6 +23,8 @@
   "license": "ISC",
   "dependencies": {
     "@apollo/client": "^4.1.6",
+    "@c15t/nextjs": "^2.2.1",
+    "@c15t/scripts": "^2.2.0",
     "@graphql-codegen/cli": "^5.0.0",
     "@graphql-codegen/typescript": "^4.0.1",
     "@types/react": "^19",

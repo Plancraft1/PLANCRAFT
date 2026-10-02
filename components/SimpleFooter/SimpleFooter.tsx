@@ -1,5 +1,6 @@
 "use client";
 
+import { CookieSettingsLink } from "../CookieConsent/CookieSettingsLink";
 import DividerHeader from "../Divider/DividerHeader";
 import Link from "../Link/Link";
 import { Mini } from "../Typography/Mini";
@@ -16,6 +17,9 @@ const SimpleFooter = ({}: SimpleFooterProps) => {
       <DividerHeader className="flip big">
         <SimpleFooterDividerHeaderInner>
           <Mini>{`${new Date().getFullYear()} PLANCRAFT`}</Mini>
+          <Mini>
+            <CookieSettingsLink>Nastavení cookies</CookieSettingsLink>
+          </Mini>
           <Mini className="tar">
             Made with Style & Ease by{" "}
             <Link
